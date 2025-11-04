@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aptis Reading Part 2-3 Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+        
+        .controls {
+            padding: 20px;
+            background: #f5f5f5;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .category-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .stats {
+            text-align: center;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .stats-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .quiz-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+        }
+        
+        .topic-title {
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        /* 5 ô trống */
+        .drop-zones {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f0f4ff;
+            border-radius: 15px;
+        }
+        
+        .drop-zone {
+            min-height: 90px;
+            margin-bottom: 15px;
+            border: 3px dashed #ccc;
+            border-radius: 10px;
+            padding: 15px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        
+        .drop-zone.drag-over {
+            border-color: #667eea;
+            background: #e3f2fd;
+            transform: scale(1.02);
+        }
+        
+        .zone-label {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+        
+        .zone-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 50px;
+        }
+        
+        .zone-content.filled {
+            background: #e3f2fd;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 12px;
+        }
+        
+        .empty-text {
+            color: #999;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+        
+        .remove-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: #f44336;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 1;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        
+        .remove-btn:hover {
+            background: #d32f2f;
+            transform: scale(1.15);
+        }
+        
+        /* Pool đáp án */
+        .answer-pool {
+            padding: 20px;
+            background: #fff9e6;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .answer-pool h3 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .answer-item {
+            padding: 15px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            cursor: grab;
+            transition: all 0.3s ease;
+            line-height: 1.6;
+        }
+        
+        .answer-item:hover {
+            background: #f0f4ff;
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+        }
+        
+        .answer-item:active {
+            cursor: grabbing;
+        }
+        
+        .answer-item.dragging {
+            opacity: 0.4;
+            transform: scale(0.95);
+        }
+        
+        .answer-item.used {
+            display: none;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            color: white;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+        
+        .result.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+        }
+        
+        .correct-order {
+            background: #fff9c4;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .correct-order h4 {
+            color: #f57c00;
+            margin-bottom: 10px;
+        }
+        
+        .translations {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .translations h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+        
+        .translation-item {
+            margin: 8px 0;
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+            font-size: 0.95em;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Aptis Reading Part 2-3</h1>
+            <p>Kéo thả câu vào đúng vị trí - 19 Topics</p>
+        </div>
+        
+        <div class="controls">
+            <button class="category-btn active" onclick="filterCategory('all')">Tất cả (19)</button>
+            <button class="category-btn" onclick="filterCategory('culture-history')">Văn hóa (7)</button>
+            <button class="category-btn" onclick="filterCategory('society-lifestyle')">Xã hội (8)</button>
+            <button class="category-btn" onclick="filterCategory('technology')">Công nghệ (4)</button>
+        </div>
+        
+        <div class="content">
+            <div class="stats">
+                <div class="stats-number" id="currentQuestion">1 / 19</div>
+                <div style="margin-top: 10px; color: #666;">Câu hỏi hiện tại</div>
+            </div>
+            
+            <div id="quizContent"></div>
+        </div>
+    </div>
+    
+    <script>
+        const topics = [
+            // NHÓM 1: VĂN HÓA & LỊCH SỬ
+            {
+                id: 1,
+                category: 'culture-history',
+                title: 'Films',
+                sentences: [
+                    "The films in that period were different from the films of today.",
+                    "This is because they were black and white, and there was no sound.",
+                    "In addition to these technical limitations, film producers also had a very low budget",
+                    "This lack of money mostly affected actors, and they didn't earn much",
+                    "Things have changed over time, and some of them have earned millions of dollars after appearing in films"
+                ],
+                translations: [
+                    "Phim trong thời kỳ đó khác với phim ngày nay",
+                    "Điều này là vì chúng đen trắng và không có âm thanh",
+                    "Ngoài những hạn chế kỹ thuật này, các nhà sản xuất phim cũng có ngân sách rất thấp",
+                    "Sự thiếu tiền này chủ yếu ảnh hưởng đến các diễn viên và họ không kiếm được nhiều",
+                    "Mọi thứ đã thay đổi theo thời gian và một số người đã kiếm được hàng triệu đô la sau khi xuất hiện trong phim"
+                ]
+            },
+            {
+                id: 2,
+                category: 'culture-history',
+                title: 'The First American Woman in Space',
+                sentences: [
+                    "With the support of her parents, she went to university to study science",
+                    "Her degree enabled her to get a place on the training course in the USA",
+                    "This is about space, and it helps Mae to become a member of a research team",
+                    "As part of this group, she traveled to space and did a lot of experiments",
+                    "Some of those were about growing plants and some animals in a spaceship"
+                ],
+                translations: [
+                    "Với sự hỗ trợ của cha mẹ, cô ấy đã đi học đại học ngành khoa học",
+                    "Bằng cấp của cô ấy giúp cô có được chỗ trong khóa đào tạo ở Mỹ",
+                    "Đây là về không gian, và nó giúp Mae trở thành thành viên của nhóm nghiên cứu",
+                    "Là một phần của nhóm này, cô ấy đã đi vào không gian và làm nhiều thí nghiệm",
+                    "Một số trong đó là về trồng cây và một số động vật trong tàu vũ trụ"
+                ]
+            },
+            {
+                id: 3,
+                category: 'culture-history',
+                title: 'Music Show at the Park',
+                sentences: [
+                    "The local authority planned, sponsored, and paid for everything.",
+                    "Because of this, it was free and five thousand people attended it.",
+                    "Many of them arrived early and visited nearby shops while they were waiting for it to begin.",
+                    "The staff there had a busy day, but they were able to close early and watch the famous singer perform.",
+                    "He performed for two hours, and everyone had great fun"
+                ],
+                translations: [
+                    "Chính quyền địa phương đã lên kế hoạch, tài trợ và chi trả mọi thứ",
+                    "Vì thế nên nó miễn phí và năm nghìn người đã tham dự",
+                    "Nhiều người trong số họ đến sớm và ghé thăm các cửa hàng gần đó trong khi chờ đợi",
+                    "Nhân viên ở đó có một ngày bận rộn, nhưng họ có thể đóng cửa sớm và xem ca sĩ nổi tiếng biểu diễn",
+                    "Anh ấy biểu diễn trong hai giờ, và mọi người đều rất vui"
+                ]
+            },
+            {
+                id: 4,
+                category: 'culture-history',
+                title: 'Neighborhood Festival',
+                sentences: [
+                    "The festival was held on Friday evening, featuring live music performances.",
+                    "Around 100 people attended, with Ms. Carter leading the organizing team.",
+                    "After the performances, awards were given for the best food stall.",
+                    "Activities included dance workshops, art displays, and a pet parade.",
+                    "Families stayed late, enjoying food and drinks under colorful lights."
+                ],
+                translations: [
+                    "Lễ hội được tổ chức vào tối thứ Sáu, có các buổi biểu diễn âm nhạc trực tiếp",
+                    "Khoảng 100 người tham dự, với Ms. Carter dẫn đầu nhóm tổ chức",
+                    "Sau các buổi biểu diễn, giải thưởng được trao cho gian hàng thực phẩm tốt nhất",
+                    "Các hoạt động bao gồm hội thảo khiêu vũ, triển lãm nghệ thuật và cuộc diễu hành thú cưng",
+                    "Các gia đình ở lại muộn, thưởng thức đồ ăn và đồ uống dưới ánh đèn đầy màu sắc"
+                ]
+            },
+            {
+                id: 5,
+                category: 'culture-history',
+                title: 'Family Sport Day',
+                sentences: [
+                    "It started early on Saturday morning with a ten-mile race for adults.",
+                    "Sixty men and women ran in this, and Ms Kamur won with a very fast time",
+                    "After receiving the prize, the children's activities and competitions began.",
+                    "These activities included football, jumping, and swimming, and they had lots of fun.",
+                    "They were all very hungry after all these, so they enjoyed tasty food and drinks with their parents"
+                ],
+                translations: [
+                    "Nó bắt đầu sáng sớm thứ Bảy với cuộc đua mười dặm cho người lớn",
+                    "Sáu mươi nam và nữ đã chạy, và Ms Kamur thắng với thời gian rất nhanh",
+                    "Sau khi nhận giải, các hoạt động và cuộc thi dành cho trẻ em bắt đầu",
+                    "Những hoạt động này bao gồm bóng đá, nhảy và bơi lội, và họ đã rất vui",
+                    "Tất cả đều rất đói sau những hoạt động này, vì vậy họ thưởng thức đồ ăn ngon và đồ uống với cha mẹ"
+                ]
+            },
+            {
+                id: 6,
+                category: 'culture-history',
+                title: 'NEW CAFE IN TOWN',
+                sentences: [
+                    "It was FULL OF PEOPLE, and the staff were working hard on their 1st day",
+                    "DESPITE THE CROWD, they found me a nice table and brought me a menu",
+                    "When I first looked at the menu, I was DISAPPOINTED since I hoped to see a variety of dishes",
+                    "I had to choose one of those, so I decided to choose the MOST EXPENSIVE ONE",
+                    "It was really good with CHEESE TOPPING and I would come back to this place"
+                ],
+                translations: [
+                    "Quán đầy người, và nhân viên làm việc chăm chỉ trong ngày đầu tiên",
+                    "Mặc dù đông đúc, họ tìm cho tôi một bàn đẹp và mang menu cho tôi",
+                    "Khi nhìn menu lần đầu, tôi thất vọng vì tôi hy vọng thấy nhiều món ăn đa dạng",
+                    "Tôi phải chọn một trong số đó, nên tôi quyết định chọn món ĐẮT NHẤT",
+                    "Nó thực sự ngon với phủ PHÔ MAI và tôi sẽ quay lại quán này"
+                ]
+            },
+            {
+                id: 7,
+                category: 'culture-history',
+                title: 'Singer',
+                sentences: [
+                    "Before becoming famous at a young age, he studied art and music at high school",
+                    "During this education, he started to perform on stage.",
+                    "During his stage performances, he wore colorful clothes and painted his face.",
+                    "This strange ways of dressing and his songs attracted people's attention",
+                    "They started to follow him on social media and he is now very famous"
+                ],
+                translations: [
+                    "Trước khi nổi tiếng khi còn trẻ, anh ấy học nghệ thuật và âm nhạc ở trường trung học",
+                    "Trong thời gian học này, anh ấy bắt đầu biểu diễn trên sân khấu",
+                    "Trong các buổi biểu diễn, anh ấy mặc quần áo đầy màu sắc và vẽ mặt",
+                    "Cách ăn mặc kỳ lạ này và các bài hát của anh ấy đã thu hút sự chú ý của mọi người",
+                    "Họ bắt đầu theo dõi anh ấy trên mạng xã hội và bây giờ anh ấy rất nổi tiếng"
+                ]
+            },
+            
+            // NHÓM 2: XÃ HỘI & ĐỜI SỐNG
+            {
+                id: 8,
+                category: 'society-lifestyle',
+                title: 'Healthy Eating',
+                sentences: [
+                    "In the past, meals were often filled with sugar and unhealthy fats.",
+                    "Limited access to fresh produce made healthy eating much more difficult years ago.",
+                    "Modern diets now focus on fresh, whole foods rather than processed ones.",
+                    "Nutritionists today educate people on how to plan balanced and nutritious meals.",
+                    "Nowadays, mobile apps help track calories and suggest healthy recipes to support a healthier lifestyle."
+                ],
+                translations: [
+                    "Trong quá khứ, bữa ăn thường chứa nhiều đường và chất béo không lành mạnh",
+                    "Hạn chế tiếp cận thực phẩm tươi sống khiến ăn uống lành mạnh khó khăn hơn nhiều năm trước",
+                    "Chế độ ăn hiện đại hiện tập trung vào thực phẩm tươi, nguyên chất hơn là chế biến sẵn",
+                    "Các nhà dinh dưỡng ngày nay giáo dục mọi người cách lên kế hoạch bữa ăn cân bằng và bổ dưỡng",
+                    "Ngày nay, các ứng dụng di động giúp theo dõi calo và gợi ý công thức nấu ăn lành mạnh để hỗ trợ lối sống khỏe mạnh hơn"
+                ]
+            },
+            {
+                id: 9,
+                category: 'society-lifestyle',
+                title: 'Public Transportation',
+                sentences: [
+                    "City buses today are more efficient than those from a decade ago.",
+                    "Older buses often lacked air conditioning and comfortable seats.",
+                    "Due to budget limitations, many cities had fewer bus routes in the past.",
+                    "Drivers and staff now receive better training to assist passengers.",
+                    "Modern buses often use electric power, reducing pollution in urban areas."
+                ],
+                translations: [
+                    "Xe buýt thành phố ngày nay hiệu quả hơn so với một thập kỷ trước",
+                    "Xe buýt cũ thường thiếu điều hòa không khí và ghế thoải mái",
+                    "Do hạn chế ngân sách, nhiều thành phố có ít tuyến xe buýt hơn trong quá khứ",
+                    "Tài xế và nhân viên hiện nhận được đào tạo tốt hơn để hỗ trợ hành khách",
+                    "Xe buýt hiện đại thường sử dụng năng lượng điện, giảm ô nhiễm ở khu vực thành thị"
+                ]
+            },
+            {
+                id: 10,
+                category: 'society-lifestyle',
+                title: 'History of Travel',
+                sentences: [
+                    "In the past, only very rich people could afford to travel long distances.",
+                    "The invention of cars and trains had changed everything and made travelling cheaper.",
+                    "After these two means of transport, travelling becomes even easier with aeroplanes.",
+                    "Because flying with them is so fast, more people now go abroad for holiday and business.",
+                    "It is more convenient to travel to other part of the world due to the improvement in transports"
+                ],
+                translations: [
+                    "Trong quá khứ, chỉ những người rất giàu mới có thể đi du lịch đường dài",
+                    "Phát minh ra ô tô và tàu hỏa đã thay đổi mọi thứ và làm cho việc đi lại rẻ hơn",
+                    "Sau hai phương tiện này, việc đi lại trở nên dễ dàng hơn với máy bay",
+                    "Vì bay với chúng rất nhanh, nhiều người bây giờ đi nước ngoài du lịch và công tác",
+                    "Việc đi đến các nơi khác trên thế giới thuận tiện hơn nhờ cải thiện giao thông"
+                ]
+            },
+            {
+                id: 11,
+                category: 'society-lifestyle',
+                title: 'Writing about a Place',
+                sentences: [
+                    "Before writing about a place, you need to do some research on it.",
+                    "It is important to learn about the people and the history there carefully.",
+                    "Even if you can not visit the place, your writing will still look similar to real experiences.",
+                    "You should also compare that place with your own country.",
+                    "Such comparisons will make your writing more interesting and meaningful."
+                ],
+                translations: [
+                    "Trước khi viết về một nơi, bạn cần nghiên cứu về nó",
+                    "Điều quan trọng là tìm hiểu về con người và lịch sử ở đó một cách cẩn thận",
+                    "Ngay cả khi bạn không thể đến thăm nơi đó, bài viết của bạn vẫn sẽ giống với trải nghiệm thực tế",
+                    "Bạn cũng nên so sánh nơi đó với đất nước của mình",
+                    "Những so sánh như vậy sẽ làm cho bài viết của bạn thú vị và ý nghĩa hơn"
+                ]
+            },
+            {
+                id: 12,
+                category: 'society-lifestyle',
+                title: 'College Welcoming Day',
+                sentences: [
+                    "The day will begin at 10 a.m in the morning with a short presentation.",
+                    "At the end of this talk, you will meet the head of your departments and teachers.",
+                    "These staff members will give you a guided tour of the building and the sport facilities in small groups",
+                    "During this visit, you will need to stay with these students until lunch break.",
+                    "This meal will be on the second floor of the engineering building"
+                ],
+                translations: [
+                    "Ngày sẽ bắt đầu lúc 10 giờ sáng với một bài thuyết trình ngắn",
+                    "Vào cuối buổi nói chuyện này, bạn sẽ gặp trưởng khoa và giáo viên",
+                    "Các nhân viên này sẽ đưa bạn tham quan tòa nhà và cơ sở thể thao theo nhóm nhỏ",
+                    "Trong chuyến thăm này, bạn sẽ cần ở lại với những sinh viên này cho đến giờ nghỉ trưa",
+                    "Bữa ăn này sẽ ở tầng hai của tòa nhà kỹ thuật"
+                ]
+            },
+            {
+                id: 13,
+                category: 'society-lifestyle',
+                title: 'End of Term Report',
+                sentences: [
+                    "For the end of term project, you need to choose at least 2 of these.",
+                    "It needs to include relevant images and your own text about the topic.",
+                    "Then you need to use these images and written work to create a presentation",
+                    "Your presentation will include your key points and you have around 5 minutes to talk",
+                    "After this time, other students will be able to ask questions and you need to answer them"
+                ],
+                translations: [
+                    "Đối với dự án cuối kỳ, bạn cần chọn ít nhất 2 trong số này",
+                    "Nó cần bao gồm hình ảnh liên quan và văn bản của riêng bạn về chủ đề",
+                    "Sau đó bạn cần sử dụng những hình ảnh và bài viết này để tạo bài thuyết trình",
+                    "Bài thuyết trình của bạn sẽ bao gồm các điểm chính và bạn có khoảng 5 phút để nói",
+                    "Sau thời gian này, các sinh viên khác sẽ có thể đặt câu hỏi và bạn cần trả lời"
+                ]
+            },
+            {
+                id: 14,
+                category: 'society-lifestyle',
+                title: 'Social Media',
+                sentences: [
+                    "In the past, limited internet speeds made it difficult to stream or upload video content.",
+                    "Early platforms only offered simple features, such as text posts and basic images.",
+                    "Over the years, social media platforms have evolved significantly in both design and functionality.",
+                    "Modern platforms now rely on algorithms to personalize and shape each user's feed.",
+                    "Today, influencers earn money mainly through sponsorships and online advertisements."
+                ],
+                translations: [
+                    "Trong quá khứ, tốc độ internet hạn chế khiến việc phát trực tuyến hoặc tải video khó khăn",
+                    "Các nền tảng đầu tiên chỉ cung cấp các tính năng đơn giản, như bài đăng văn bản và hình ảnh cơ bản",
+                    "Qua nhiều năm, các nền tảng mạng xã hội đã phát triển đáng kể về cả thiết kế và chức năng",
+                    "Các nền tảng hiện đại hiện dựa vào thuật toán để cá nhân hóa và định hình nguồn cấp dữ liệu của mỗi người dùng",
+                    "Ngày nay, những người có ảnh hưởng kiếm tiền chủ yếu thông qua tài trợ và quảng cáo trực tuyến"
+                ]
+            },
+            {
+                id: 15,
+                category: 'society-lifestyle',
+                title: 'A Day at the Office',
+                sentences: [
+                    "The office has flexible hours to accommodate employee schedules.",
+                    "Her desk is white, standing out in the open-plan office.",
+                    "She uses a calendar to plan her tasks for the shortened workweek.",
+                    "For lunch, she packs a homemade sandwich with fresh ingredients.",
+                    "After work, they relax by reading books on productivity and wellness."
+                ],
+                translations: [
+                    "Văn phòng có giờ làm việc linh hoạt để phù hợp với lịch trình của nhân viên",
+                    "Bàn làm việc của cô ấy màu trắng, nổi bật trong văn phòng không gian mở",
+                    "Cô ấy sử dụng lịch để lên kế hoạch công việc cho tuần làm việc rút ngắn",
+                    "Đối với bữa trưa, cô ấy chuẩn bị bánh sandwich tự làm với nguyên liệu tươi",
+                    "Sau giờ làm, họ thư giãn bằng cách đọc sách về năng suất và sức khỏe"
+                ]
+            },
+            
+            // NHÓM 3: CÔNG NGHỆ & CÔNG VIỆC
+            {
+                id: 16,
+                category: 'technology',
+                title: 'Artificial Intelligence',
+                sentences: [
+                    "Over the past decade, artificial intelligence has revolutionized various industries.",
+                    "The early AI systems were limited to simple pattern recognition tasks.",
+                    "High computational costs previously hindered the development of AI.",
+                    "Nowadays, AI engineers build advanced models for complex tasks such as language translation.",
+                    "Modern AI tools help businesses to analyze data and make better decisions."
+                ],
+                translations: [
+                    "Trong thập kỷ qua, trí tuệ nhân tạo đã cách mạng hóa nhiều ngành công nghiệp",
+                    "Các hệ thống AI ban đầu bị giới hạn ở các nhiệm vụ nhận dạng mẫu đơn giản",
+                    "Chi phí tính toán cao trước đây đã cản trở sự phát triển của AI",
+                    "Ngày nay, các kỹ sư AI xây dựng các mô hình tiên tiến cho các nhiệm vụ phức tạp như dịch ngôn ngữ",
+                    "Các công cụ AI hiện đại giúp doanh nghiệp phân tích dữ liệu và đưa ra quyết định tốt hơn"
+                ]
+            },
+            {
+                id: 17,
+                category: 'technology',
+                title: 'Artificial Intelligence (Variant)',
+                sentences: [
+                    "Artificial intelligence has transformed industries over the past decade.",
+                    "Early AI systems were limited to basic pattern recognition tasks.",
+                    "High computational costs restricted AI development in the past.",
+                    "Today, AI engineers create advanced models for tasks like language translation.",
+                    "Modern AI tools help businesses analyze data and improve decision-making."
+                ],
+                translations: [
+                    "Trí tuệ nhân tạo đã biến đổi các ngành công nghiệp trong thập kỷ qua",
+                    "Các hệ thống AI đầu tiên bị giới hạn ở các nhiệm vụ nhận dạng mẫu cơ bản",
+                    "Chi phí tính toán cao đã hạn chế phát triển AI trong quá khứ",
+                    "Ngày nay, các kỹ sư AI tạo ra các mô hình tiên tiến cho các nhiệm vụ như dịch ngôn ngữ",
+                    "Các công cụ AI hiện đại giúp doanh nghiệp phân tích dữ liệu và cải thiện việc ra quyết định"
+                ]
+            },
+            {
+                id: 18,
+                category: 'technology',
+                title: 'Workplace Evolution',
+                sentences: [
+                    "In the past, employees followed strict nine-to-five schedules.",
+                    "Limited technology once restricted remote work possibilities.",
+                    "Modern workplaces are adopting more flexible work models.",
+                    "Managers now use software to track project progress remotely.",
+                    "Today, companies experiment with shorter workweeks to boost productivity."
+                ],
+                translations: [
+                    "Trong quá khứ, nhân viên tuân theo lịch trình làm việc chặt chẽ từ 9 giờ đến 5 giờ",
+                    "Công nghệ hạn chế từng hạn chế khả năng làm việc từ xa",
+                    "Các nơi làm việc hiện đại đang áp dụng các mô hình làm việc linh hoạt hơn",
+                    "Các nhà quản lý hiện sử dụng phần mềm để theo dõi tiến độ dự án từ xa",
+                    "Ngày nay, các công ty thử nghiệm với tuần làm việc ngắn hơn để tăng năng suất"
+                ]
+            },
+            {
+                id: 19,
+                category: 'technology',
+                title: 'Tourism',
+                sentences: [
+                    "Modern tourism now offers far more options than in the past.",
+                    "In earlier times, travelers often relied mainly on guidebooks and paper maps.",
+                    "However, limited technology back then also meant fewer booking options were available.",
+                    "Today, online platforms make it much easier to plan carefully and book trips quickly.",
+                    "In addition, local guides now offer personalized tours for visitors, creating more authentic experiences."
+                ],
+                translations: [
+                    "Du lịch hiện đại hiện cung cấp nhiều lựa chọn hơn nhiều so với trong quá khứ",
+                    "Trong thời gian trước đó, du khách thường chủ yếu dựa vào sách hướng dẫn và bản đồ giấy",
+                    "Tuy nhiên, công nghệ hạn chế lúc đó cũng có nghĩa là ít lựa chọn đặt phòng có sẵn hơn",
+                    "Ngày nay, các nền tảng trực tuyến giúp việc lên kế hoạch cẩn thận và đặt chuyến đi nhanh chóng dễ dàng hơn nhiều",
+                    "Ngoài ra, các hướng dẫn viên địa phương hiện cung cấp các tour du lịch được cá nhân hóa cho du khách, tạo ra trải nghiệm chân thực hơn"
+                ]
+            }
+        ];
+
+        let currentCategory = 'all';
+        let currentQuestionIndex = 0;
+        let filteredTopics = [...topics];
+        let slotContents = [null, null, null, null, null];
+        let draggedElement = null;
+        let draggedSentence = null;
+
+        function filterCategory(category) {
+            currentCategory = category;
+            currentQuestionIndex = 0;
+            
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            filteredTopics = category === 'all' ? [...topics] : topics.filter(t => t.category === category);
+            
+            showQuestion(0);
+        }
+
+        function showQuestion(index) {
+            if (index < 0 || index >= filteredTopics.length) return;
+            
+            currentQuestionIndex = index;
+            const topic = filteredTopics[index];
+            
+            slotContents = [null, null, null, null, null];
+            
+            const shuffled = [...topic.sentences].sort(() => Math.random() - 0.5);
+            
+            document.getElementById('currentQuestion').textContent = `${index + 1} / ${filteredTopics.length}`;
+            
+            const html = `
+                <div class="quiz-card">
+                    <h2 class="topic-title">${topic.title}</h2>
+                    <p style="text-align: center; color: #666; margin-bottom: 20px;">
+                        🎯 Kéo các câu từ dưới lên vào đúng vị trí 1→5
+                    </p>
+                    
+                    <div class="drop-zones">
+                        ${Array.from({length: 5}, (_, i) => `
+                            <div class="drop-zone" data-position="${i}" 
+                                 ondragover="allowDrop(event)" 
+                                 ondrop="dropToSlot(event)"
+                                 ondragleave="dragLeave(event)">
+                                <div class="zone-label">📍 Vị trí ${i + 1}</div>
+                                <div class="zone-content" id="slot-${i}">
+                                    <span class="empty-text">Kéo câu vào đây...</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="answer-pool">
+                        <h3>📝 Các câu (đã xáo trộn) - Kéo vào ô trống phía trên</h3>
+                        <div class="answers" id="answerPool">
+                            ${shuffled.map((sent, i) => `
+                                <div class="answer-item" draggable="true" 
+                                     data-sentence="${sent}" 
+                                     data-id="answer-${i}"
+                                     ondragstart="dragStartAnswer(event)" 
+                                     ondragend="dragEndAnswer(event)">
+                                    ${sent}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="checkAnswer()">✓ Kiểm tra đáp án</button>
+                        <button class="btn btn-success" onclick="nextQuestion()" style="display: none;" id="nextBtn">
+                            Câu tiếp theo →
+                        </button>
+                    </div>
+                    
+                    <div class="result" id="result"></div>
+                </div>
+            `;
+            
+            document.getElementById('quizContent').innerHTML = html;
+        }
+
+        function dragStartAnswer(e) {
+            draggedElement = e.target;
+            draggedSentence = e.target.dataset.sentence;
+            e.target.classList.add('dragging');
+        }
+
+        function dragEndAnswer(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function allowDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('drag-over');
+        }
+
+        function dragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        function dropToSlot(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('drag-over');
+            
+            const position = parseInt(e.currentTarget.dataset.position);
+            const slotContent = document.getElementById(`slot-${position}`);
+            
+            if (slotContents[position] !== null) {
+                return;
+            }
+            
+            slotContents[position] = draggedSentence;
+            slotContent.innerHTML = `
+                <div style="flex: 1; padding-right: 10px;">${draggedSentence}</div>
+                <button class="remove-btn" onclick="removeFromSlot(${position})">×</button>
+            `;
+            slotContent.classList.add('filled');
+            
+            draggedElement.classList.add('used');
+            
+            draggedElement = null;
+            draggedSentence = null;
+        }
+
+        function removeFromSlot(position) {
+            const sentence = slotContents[position];
+            slotContents[position] = null;
+            
+            const slotContent = document.getElementById(`slot-${position}`);
+            slotContent.innerHTML = '<span class="empty-text">Kéo câu vào đây...</span>';
+            slotContent.classList.remove('filled');
+            
+            const answerItems = document.querySelectorAll('.answer-item');
+            answerItems.forEach(item => {
+                if (item.dataset.sentence === sentence) {
+                    item.classList.remove('used');
+                }
+            });
+        }
+
+        function checkAnswer() {
+            const topic = filteredTopics[currentQuestionIndex];
+            
+            if (slotContents.includes(null)) {
+                alert('⚠️ Vui lòng điền đủ 5 câu vào các ô trống!');
+                return;
+            }
+            
+            const isCorrect = JSON.stringify(slotContents) === JSON.stringify(topic.sentences);
+            
+            const result = document.getElementById('result');
+            const dropZones = document.querySelectorAll('.drop-zone');
+            
+            if (isCorrect) {
+                result.className = 'result show correct';
+                result.innerHTML = '<h3>🎉 Chính xác! Hoàn hảo! Bạn đã sắp xếp đúng thứ tự!</h3>';
+                
+                dropZones.forEach(zone => {
+                    const content = zone.querySelector('.zone-content');
+                    content.style.background = '#c8e6c9';
+                    content.style.border = '2px solid #4caf50';
+                });
+                
+                document.getElementById('nextBtn').style.display = 'inline-block';
+            } else {
+                result.className = 'result show incorrect';
+                
+                let html = '<h3>❌ Chưa đúng! Hãy xem đáp án</h3>';
+                
+                html += '<div class="correct-order">';
+                html += '<h4>📝 Thứ tự đúng:</h4>';
+                topic.sentences.forEach((sent, i) => {
+                    const isCorrectPos = slotContents[i] === sent;
+                    const icon = isCorrectPos ? '✅' : '❌';
+                    const color = isCorrectPos ? '#4caf50' : '#f44336';
+                    html += `<div style="margin: 10px 0; padding: 8px; background: white; border-radius: 5px; border-left: 4px solid ${color};">
+                        <strong style="color: ${color};">${icon} Vị trí ${i + 1}:</strong> ${sent}
+                    </div>`;
+                });
+                html += '</div>';
+                
+                html += '<div class="translations">';
+                html += '<h4>🇻🇳 Dịch nghĩa từng câu:</h4>';
+                topic.translations.forEach((trans, i) => {
+                    html += `<div class="translation-item"><strong>Câu ${i + 1}:</strong> ${trans}</div>`;
+                });
+                html += '</div>';
+                
+                result.innerHTML = html;
+                
+                dropZones.forEach((zone, i) => {
+                    const content = zone.querySelector('.zone-content');
+                    if (slotContents[i] !== topic.sentences[i]) {
+                        content.style.background = '#ffcdd2';
+                        content.style.border = '2px solid #f44336';
+                    } else {
+                        content.style.background = '#c8e6c9';
+                        content.style.border = '2px solid #4caf50';
+                    }
+                });
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < filteredTopics.length - 1) {
+                showQuestion(currentQuestionIndex + 1);
+            } else {
+                alert('🎉 Chúc mừng! Bạn đã hoàn thành tất cả câu hỏi trong nhóm này!');
+            }
+        }
+
+        document.addEventListener('dragover', function(e) {
+            const dropZone = e.target.closest('.drop-zone');
+            if (!dropZone) {
+                document.querySelectorAll('.drop-zone').forEach(z => z.classList.remove('drag-over'));
+            }
+        });
+
+        showQuestion(0);
+    </script>
+</body>
+</html>
