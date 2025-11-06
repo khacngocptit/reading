@@ -95,22 +95,40 @@
             text-align: center;
         }
         
+        /* Container ngang */
+        .quiz-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
         /* 5 ô trống */
         .drop-zones {
-            margin-bottom: 30px;
+            flex: 1;
             padding: 20px;
             background: #f0f4ff;
             border-radius: 15px;
         }
         
-        .drop-zone {
-            min-height: 90px;
+        .drop-zones h3 {
+            text-align: center;
+            color: #667eea;
             margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .drop-zone {
+            min-height: 80px;
+            margin-bottom: 12px;
             border: 3px dashed #ccc;
             border-radius: 10px;
-            padding: 15px;
+            padding: 12px;
             background: white;
             transition: all 0.3s ease;
+        }
+        
+        .drop-zone:last-child {
+            margin-bottom: 0;
         }
         
         .drop-zone.drag-over {
@@ -168,32 +186,34 @@
         
         /* Pool đáp án */
         .answer-pool {
+            flex: 1;
             padding: 20px;
             background: #fff9e6;
             border-radius: 15px;
-            margin-bottom: 25px;
         }
         
         .answer-pool h3 {
             text-align: center;
             color: #667eea;
             margin-bottom: 15px;
+            font-size: 1.1em;
         }
         
         .answers {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
         
         .answer-item {
-            padding: 15px;
+            padding: 12px 15px;
             background: white;
             border: 2px solid #667eea;
             border-radius: 10px;
             cursor: grab;
             transition: all 0.3s ease;
-            line-height: 1.6;
+            line-height: 1.5;
+            font-size: 0.95em;
         }
         
         .answer-item:hover {
@@ -306,6 +326,18 @@
             
             .header h1 {
                 font-size: 1.5em;
+            }
+            
+            .quiz-container {
+                flex-direction: column;
+            }
+            
+            .answer-pool {
+                order: 1;
+            }
+            
+            .drop-zones {
+                order: 2;
             }
         }
     </style>
@@ -738,34 +770,39 @@
             const html = `
                 <div class="quiz-card">
                     <h2 class="topic-title">${topic.title}</h2>
-                    <p style="text-align: center; color: #666; margin-bottom: 20px;">
-                        🎯 Kéo các câu từ dưới lên vào đúng vị trí 1→5
+                    <p style="text-align: center; color: #666; margin-bottom: 25px;">
+                        🎯 Kéo các câu từ <strong style="color: #f59e0b;">BÊN TRÁI</strong> sang <strong style="color: #667eea;">BÊN PHẢI</strong> vào đúng vị trí
                     </p>
                     
-                    <div class="drop-zones">
-                        ${Array.from({length: 5}, (_, i) => `
-                            <div class="drop-zone" data-position="${i}" 
-                                 ondragover="allowDrop(event)" 
-                                 ondrop="dropToSlot(event)"
-                                 ondragleave="dragLeave(event)">
-                                <div class="zone-label">📍 Vị trí ${i + 1}</div>
-                                <div class="zone-content" id="slot-${i}">
-                                    <span class="empty-text">Kéo câu vào đây...</span>
-                                </div>
+                    <div class="quiz-container">
+                        <!-- Đáp án bên TRÁI -->
+                        <div class="answer-pool">
+                            <h3>📝 Các câu (đã xáo trộn)</h3>
+                            <div class="answers" id="answerPool">
+                                ${shuffled.map((sent, i) => `
+                                    <div class="answer-item" draggable="true" 
+                                         data-sentence="${sent}" 
+                                         data-id="answer-${i}"
+                                         ondragstart="dragStartAnswer(event)" 
+                                         ondragend="dragEndAnswer(event)">
+                                        ${sent}
+                                    </div>
+                                `).join('')}
                             </div>
-                        `).join('')}
-                    </div>
-                    
-                    <div class="answer-pool">
-                        <h3>📝 Các câu (đã xáo trộn) - Kéo vào ô trống phía trên</h3>
-                        <div class="answers" id="answerPool">
-                            ${shuffled.map((sent, i) => `
-                                <div class="answer-item" draggable="true" 
-                                     data-sentence="${sent}" 
-                                     data-id="answer-${i}"
-                                     ondragstart="dragStartAnswer(event)" 
-                                     ondragend="dragEndAnswer(event)">
-                                    ${sent}
+                        </div>
+                        
+                        <!-- Ô trống bên PHẢI -->
+                        <div class="drop-zones">
+                            <h3>🎯 Vị trí đúng (1→5)</h3>
+                            ${Array.from({length: 5}, (_, i) => `
+                                <div class="drop-zone" data-position="${i}" 
+                                     ondragover="allowDrop(event)" 
+                                     ondrop="dropToSlot(event)"
+                                     ondragleave="dragLeave(event)">
+                                    <div class="zone-label">📍 Vị trí ${i + 1}</div>
+                                    <div class="zone-content" id="slot-${i}">
+                                        <span class="empty-text">Kéo câu vào đây...</span>
+                                    </div>
                                 </div>
                             `).join('')}
                         </div>
