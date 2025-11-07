@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Học Thuộc Aptis Reading Part 4</title>
+    <title>Aptis Reading Part 4 - Practice</title>
     <style>
         * {
             margin: 0;
@@ -14,166 +14,109 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
             padding: 20px;
+            min-height: 100vh;
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 95%;
             margin: 0 auto;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             overflow: hidden;
         }
         
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 30px;
+            padding: 25px;
             text-align: center;
         }
         
         .header h1 {
-            font-size: 2.5em;
+            font-size: 28px;
             margin-bottom: 10px;
         }
         
-        .progress-section {
-            background: white;
-            padding: 20px;
-            border-bottom: 2px solid #e0e0e0;
-        }
-        
         .progress-bar {
-            width: 100%;
-            height: 30px;
-            background: #e0e0e0;
-            border-radius: 15px;
+            background: rgba(255,255,255,0.3);
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 15px;
             overflow: hidden;
-            position: relative;
         }
         
         .progress-fill {
+            background: #4CAF50;
             height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
             width: 0%;
-            transition: width 0.5s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
+            transition: width 0.3s ease;
         }
         
-        .controls {
+        .topic-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
             padding: 20px;
             background: #f5f5f5;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
+            border-bottom: 2px solid #ddd;
         }
         
-        .btn {
-            padding: 12px 25px;
-            border: none;
+        .topic-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
             border-radius: 25px;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            color: white;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-weight: 600;
         }
         
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        .btn-success {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-        }
-        
-        .btn-danger {
-            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
-        }
-        
-        .btn-info {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-        
-        .content {
-            padding: 30px;
-        }
-        
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 2.5em;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        
-        .topic-group {
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-        
-        .topic-group-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid #667eea;
-        }
-        
-        .topic-group-title {
-            font-size: 1.8em;
-            color: #667eea;
-            font-weight: bold;
-        }
-        
-        .category-badge {
-            padding: 8px 20px;
+        .topic-btn:hover {
             background: #667eea;
             color: white;
-            border-radius: 20px;
-            font-size: 0.9em;
+            transform: translateY(-2px);
         }
         
-        .conversation {
+        .topic-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 30px;
+            min-height: 60vh;
+        }
+        
+        .conversation-section {
             background: #f9f9f9;
-            padding: 20px;
+            padding: 25px;
             border-radius: 10px;
-            margin: 15px 0;
+            overflow-y: auto;
+            max-height: 70vh;
+        }
+        
+        .conversation-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+        
+        .topic-title {
+            font-size: 20px;
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-weight: bold;
         }
         
         .person-speech {
-            margin: 15px 0;
+            margin-bottom: 20px;
             padding: 15px;
             background: white;
             border-left: 4px solid #667eea;
@@ -183,210 +126,202 @@
         .person-name {
             font-weight: bold;
             color: #667eea;
-            font-size: 1.1em;
             margin-bottom: 8px;
         }
         
-        .speech-text {
-            line-height: 1.6;
-            color: #333;
-        }
-        
-        .speech-text strong {
-            background: #ffeaa7;
-            padding: 2px 5px;
+        .highlight {
+            background: yellow;
+            padding: 2px 4px;
             border-radius: 3px;
-            color: #764ba2;
         }
         
         .questions-section {
-            margin-top: 20px;
-            background: #e8f5e9;
-            padding: 20px;
+            background: #f9f9f9;
+            padding: 25px;
             border-radius: 10px;
+            overflow-y: auto;
+            max-height: 70vh;
         }
         
-        .questions-section h3 {
-            color: #2e7d32;
-            margin-bottom: 15px;
+        .questions-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 22px;
         }
         
         .question-item {
-            padding: 12px;
-            margin: 10px 0;
             background: white;
+            padding: 15px;
+            margin-bottom: 15px;
             border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-        
-        .question-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 2px solid #ddd;
         }
         
         .question-text {
-            flex: 1;
-            font-size: 1.05em;
-        }
-        
-        .answer-badge {
-            padding: 5px 15px;
-            background: #4caf50;
-            color: white;
-            border-radius: 15px;
             font-weight: bold;
-            margin-left: 15px;
+            margin-bottom: 12px;
+            color: #333;
         }
         
-        .keyword-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        
-        .keyword-tag {
-            padding: 5px 12px;
-            background: #e3f2fd;
-            color: #1976d2;
-            border-radius: 15px;
-            font-size: 0.85em;
-            font-weight: bold;
-            border: 1px solid #1976d2;
-        }
-        
-        .quiz-mode {
-            display: none;
-        }
-        
-        .quiz-mode.active {
-            display: block;
-        }
-        
-        .quiz-question {
-            background: white;
-            padding: 20px;
-            margin: 15px 0;
-            border-radius: 10px;
-            border: 2px solid #667eea;
-        }
-        
-        .quiz-options {
+        .options {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 15px;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
         
-        .quiz-option {
-            padding: 15px;
-            background: #f5f5f5;
+        .option {
+            padding: 10px;
             border: 2px solid #ddd;
-            border-radius: 10px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
             text-align: center;
-            font-weight: bold;
+            font-weight: 600;
         }
         
-        .quiz-option:hover {
-            background: #e3f2fd;
+        .option:hover {
             border-color: #667eea;
-            transform: translateY(-2px);
+            background: #f0f0ff;
         }
         
-        .quiz-option.selected {
+        .option.selected {
             background: #667eea;
             color: white;
             border-color: #667eea;
         }
         
-        .quiz-option.correct {
-            background: #4caf50;
+        .option.correct {
+            background: #4CAF50;
             color: white;
-            border-color: #4caf50;
+            border-color: #4CAF50;
         }
         
-        .quiz-option.incorrect {
+        .option.incorrect {
             background: #f44336;
             color: white;
             border-color: #f44336;
         }
         
-        .quiz-result {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 10px;
-            font-size: 1.2em;
+        .button-group {
+            display: flex;
+            gap: 15px;
+            padding: 20px 30px;
+            justify-content: center;
+            background: #f5f5f5;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-check {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-check:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+        }
+        
+        .btn-next {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-next:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76,175,80,0.3);
+        }
+        
+        .btn-translate {
+            background: #FF9800;
+            color: white;
+        }
+        
+        .btn-translate:hover {
+            background: #F57C00;
+            transform: translateY(-2px);
+        }
+        
+        .btn-highlight {
+            background: #9C27B0;
+            color: white;
+        }
+        
+        .btn-highlight:hover {
+            background: #7B1FA2;
+            transform: translateY(-2px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .result-message {
+            padding: 15px;
+            margin: 20px 30px;
+            border-radius: 8px;
             text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .result-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .result-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+        
+        .translation {
+            background: #fff3cd;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #FF9800;
             display: none;
         }
         
-        .quiz-result.show {
+        .translation.show {
             display: block;
         }
         
-        .quiz-result.correct {
-            background: #c8e6c9;
-            color: #2e7d32;
+        .translation-text {
+            color: #856404;
+            font-style: italic;
         }
-        
-        .quiz-result.incorrect {
-            background: #ffcdd2;
-            color: #c62828;
-        }
-        
-        .study-plan {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .study-plan h2 {
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
-        
-        .day-plan {
-            background: rgba(255,255,255,0.2);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 15px 0;
-        }
-        
-        .session-detail {
-            background: rgba(255,255,255,0.15);
+
+        .tips-section {
+            background: #e3f2fd;
             padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border-left: 4px solid white;
+            margin-top: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #2196F3;
         }
-        
-        .topic-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
+
+        .tips-title {
+            color: #1976D2;
+            font-weight: bold;
+            margin-bottom: 8px;
         }
-        
-        .topic-item {
-            background: rgba(255,255,255,0.3);
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.9em;
-        }
-        
-        @media (max-width: 768px) {
-            .content {
-                padding: 20px;
-            }
-            
-            .quiz-options {
+
+        @media (max-width: 1024px) {
+            .main-content {
                 grid-template-columns: 1fr;
             }
         }
@@ -395,993 +330,902 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📖 Học Thuộc Aptis Reading Part 4</h1>
-            <p>16 Topics - Hội thoại 4 người - Kế hoạch 1 ngày</p>
-        </div>
-        
-        <div class="progress-section">
+            <h1>🎯 Aptis Reading Part 4 - Practice</h1>
+            <p>Luyện tập 18 chủ đề | Câu hỏi "Who"</p>
             <div class="progress-bar">
-                <div class="progress-fill" id="progressFill">0/16</div>
+                <div class="progress-fill" id="progressFill"></div>
             </div>
         </div>
         
-        <div class="controls">
-            <button class="btn btn-primary" onclick="toggleMode()">
-                <span id="modeText">🎯 Chế độ Quiz</span>
-            </button>
-            <button class="btn btn-success" onclick="markLearned()">✓ Đã học topic này</button>
-            <button class="btn btn-info" onclick="showRandomQuiz()">🎲 Quiz ngẫu nhiên</button>
-            <button class="btn btn-danger" onclick="resetProgress()">↺ Reset tiến độ</button>
+        <div class="topic-selector" id="topicSelector"></div>
+        
+        <div class="main-content">
+            <div class="conversation-section">
+                <h2>📖 Conversation</h2>
+                <div id="conversationContent"></div>
+            </div>
+            
+            <div class="questions-section">
+                <h2>❓ Questions</h2>
+                <div id="questionsContent"></div>
+            </div>
         </div>
         
-        <div class="content">
-            <div class="study-plan">
-                <h2>📅 KẾ HOẠCH HỌC 1 NGÀY</h2>
-                
-                <div class="day-plan">
-                    <h3>⏰ SÁNG (8h00-12h00) - 4 giờ - Học 8 topics</h3>
-                    <div class="session-detail">
-                        <p><strong>Topics 1-4:</strong> Childhood, Music festival, Extreme sports, Career</p>
-                        <p>⏱️ <em>Mỗi topic 30 phút (đọc + ghi nhớ keywords + quiz)</em></p>
-                    </div>
-                    <div class="session-detail">
-                        <p><strong>Topics 5-8:</strong> New station, Technology, Film, Going on holiday</p>
-                        <p>⏱️ <em>Mỗi topic 30 phút</em></p>
-                    </div>
-                </div>
-                
-                <div class="day-plan">
-                    <h3>⏰ CHIỀU (14h00-18h00) - 4 giờ - Học 8 topics</h3>
-                    <div class="session-detail">
-                        <p><strong>Topics 9-12:</strong> Visit an island, Opinions on flying, Eating and cooking, Visit a city</p>
-                        <p>⏱️ <em>Mỗi topic 30 phút</em></p>
-                    </div>
-                    <div class="session-detail">
-                        <p><strong>Topics 13-16:</strong> Sports exercise, Watching TV, Volunteering park, Art, Restaurant, Reading books</p>
-                        <p>⏱️ <em>Mỗi topic 30 phút</em></p>
-                    </div>
-                </div>
-                
-                <div class="day-plan">
-                    <h3>⏰ TỐI (20h00-22h00) - 2 giờ - Ôn tập & Quiz</h3>
-                    <div class="session-detail">
-                        <p>🔄 <strong>Ôn lại tất cả 16 topics</strong></p>
-                        <p>✓ Quiz random tất cả câu hỏi</p>
-                        <p>✓ Tập trung keywords quan trọng</p>
-                        <p>✓ Làm đến khi thuộc 100%</p>
-                    </div>
-                </div>
-                
-                <div style="background: rgba(255,255,255,0.25); padding: 15px; border-radius: 10px; margin-top: 15px;">
-                    <p><strong>💡 MẸO HỌC:</strong></p>
-                    <p>✓ Highlight keywords trong mỗi đoạn hội thoại</p>
-                    <p>✓ Liên kết câu hỏi với từ khóa đặc trưng của mỗi người</p>
-                    <p>✓ Làm quiz nhiều lần với thứ tự câu hỏi xáo trộn</p>
-                    <p>✓ Nghỉ 10 phút sau mỗi 2 topics</p>
-                </div>
-            </div>
-            
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-label">Tổng topics</div>
-                    <div class="stat-number">16</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Đã học</div>
-                    <div class="stat-number" id="learnedCount">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Còn lại</div>
-                    <div class="stat-number" id="remainingCount">16</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Tổng câu hỏi</div>
-                    <div class="stat-number">112</div>
-                </div>
-            </div>
-            
-            <div id="normalMode" class="normal-mode">
-                <!-- Topics will be inserted here by JavaScript -->
-            </div>
-            
-            <div id="quizMode" class="quiz-mode">
-                <div class="topic-group">
-                    <div class="topic-group-header">
-                        <h2 class="topic-group-title" id="quizTopicTitle">Quiz Mode</h2>
-                        <button class="btn btn-info" onclick="nextQuiz()">Câu tiếp →</button>
-                    </div>
-                    <div id="quizContent"></div>
-                    <div id="quizResult" class="quiz-result"></div>
-                </div>
-            </div>
+        <div id="resultMessage"></div>
+        
+        <div class="button-group">
+            <button class="btn btn-highlight" onclick="toggleHighlight()">🖍️ Highlight Key Points</button>
+            <button class="btn btn-translate" onclick="toggleTranslation()">🌐 Dịch</button>
+            <button class="btn btn-check" onclick="checkAnswers()" id="checkBtn">✓ Kiểm tra</button>
+            <button class="btn btn-next" onclick="nextQuestion()" id="nextBtn" style="display:none;">→ Câu tiếp theo</button>
         </div>
     </div>
-    
+
     <script>
-        const topics = [
-            {
-                id: 1,
-                title: "Childhood",
-                category: "Cuộc sống",
-                conversations: [
-                    {
-                        person: "Person A",
-                        text: "As a child, I spent hours playing board games with my friends. The rules were pretty straightforward and easy to understand. As I grew older, I thought it would be a great chance for families to bond in this way. However, modern board games were much harder, with so many rules and characters to choose from. Although I did have a great time with my two sons and we often laughed while playing, it was still a bit of an effort to learn how to play.",
-                        keywords: ["spent hours", "board games", "straightforward and easy", "modern games much harder", "great time with two sons", "laughed while playing"],
-                        question: "Who enjoyed playing games with their children?"
-                    },
-                    {
-                        person: "Person B",
-                        text: "I preferred to play outdoors with my friends when I was small. I was lucky. The weather where we lived was usually nice, so we often ran around and chased each other in the field. Sometimes, we lay on the grass and made funny faces. All of these memories were just wonderful, and they made me realize how much I enjoy being around people. Even today, I find it hard to stay home alone.",
-                        keywords: ["play outdoors", "friends when small", "weather usually nice", "ran around chased", "lay on grass", "hard to stay home alone"],
-                        question: "Who enjoyed playing with their friends as a child?"
-                    },
-                    {
-                        person: "Person C",
-                        text: "I wasn't able to move much as a child and even now. I mostly stayed at home since I don't have many friends. I was drawn to books and preferred reading in my free time. There was a library I often visited, and I would get completely lost in the stories. Now, I don't read as much as I used to, but I don't go out very often either. Instead, I spend time on my computer, where I can play games. I prefer interactive ones because they let me socialize with people online.",
-                        keywords: ["wasn't able to move", "stayed at home", "drawn to books", "preferred reading", "library", "play games on computer", "socialize online"],
-                        question: "Who enjoyed reading books as a child?"
-                    },
-                    {
-                        person: "Person D",
-                        text: "I enjoyed playing outdoors. When the day was gloomy, as it often was, I looked out of my window and hoped it would stop. There wasn't much I could do inside the house. My parents often gave me books, but I never liked sitting still and reading. Until one day my mother brought me a box full of art supplies. That's when I realized there was another thing I loved—painting. I could spend hours just staring at a blank canvas, wondering what to draw next.",
-                        keywords: ["enjoyed playing outdoors", "gloomy day", "looked out window", "never liked reading", "art supplies", "loved painting", "staring at blank canvas"],
-                        question: "Who wished they could spend more time outdoors?"
-                    }
-                ],
-                questions: [
-                    { q: "Who enjoyed playing games with their children?", a: "Person A" },
-                    { q: "Who thought childhood games were much simpler?", a: "Person A" },
-                    { q: "Who enjoyed playing with their friends as a child?", a: "Person B" },
-                    { q: "Who enjoyed playing modern games?", a: "Person C" },
-                    { q: "Who enjoyed reading books as a child?", a: "Person C" },
-                    { q: "Who wished they could spend more time outdoors?", a: "Person D" },
-                    { q: "Who enjoyed doing arts as a child?", a: "Person D" }
-                ]
-            },
-            {
-                id: 2,
-                title: "Music Festival",
-                category: "Giải trí & Văn hóa",
-                conversations: [
-                    {
-                        person: "Person A",
-                        text: "A: This was the third time going to a concert. I didn't feel very well during the first two days because it was raining and the music was just of average. It would have been much nicer if there had been some sunshine. Fortunately, the final day was wonderful and all was going well. I just need to stay and create unforgettable memories.",
-                        keywords: ["third time", "raining", "sunshine", "final day wonderful", "unforgettable memories"],
-                        question: "Who is disappointed with the weather?"
-                    },
-                    {
-                        person: "Person B",
-                        text: "B: I started going to festivals every year. It has become a tradition for me, as I truly love the lively atmosphere filled with people and music. This festival, however, felt rather unusual. The weather was not ideal for outdoor activities. My only issue was that the location was only somewhat convenient, and the music was quite average. Honestly, I don't think I will return next future.",
-                        keywords: ["every year", "tradition", "lively atmosphere", "weather not ideal", "won't return"],
-                        question: "Who didn't like the festival?"
-                    },
-                    {
-                        person: "Person C",
-                        text: "C: I don't like one particular type of music being played at festivals. I prefer an album with a mix of genres to dance to, and this show really met my expectations. The melodies performed were simply amazing. However, the ticket price was rather high, and I also felt it added to the lively atmosphere.",
-                        keywords: ["mix of genres", "met expectations", "amazing", "ticket price high"],
-                        question: "Who enjoyed all the music at the music event?"
-                    },
-                    {
-                        person: "Person D",
-                        text: "D: My band and I were invited to play at this festival. We gave our usual performance and were able to create a memorable show. Some of our old members were there, along with artists we had collaborated with in the past. It was wonderful catching up with them after the event. Unfortunately, we thought the event organizers could have done a much better job with the stage and decoration.",
-                        keywords: ["band invited", "usual performance", "memorable show", "wonderful catching up", "organizers could do better"],
-                        question: "Who thought traffic was difficult?"
-                    }
-                ],
-                questions: [
-                    { q: "Who is disappointed with the weather?", a: "Person A" },
-                    { q: "Who didn't like the festival?", a: "Person B" },
-                    { q: "Who enjoyed all the music at the music event?", a: "Person C" },
-                    { q: "Who enjoyed the final day of the music event?", a: "Person A" },
-                    { q: "Who thought traffic was difficult?", a: "Person D" },
-                    { q: "Who thought the event was expensive?", a: "Person C" },
-                    { q: "Who performed at the festival?", a: "Person D" }
-                ]
-            },
-            {
-                id: 3,
-                title: "Extreme Sports",
-                category: "Thể thao",
-                conversations: [
-                    {
-                        person: "Person A",
-                        text: "For me, the most important thing about extreme sports is preparation. Many people think it's just about being brave and taking risks, but that's not quite true. I've done several dangerous activities like skydiving and rock-climbing, and the most exciting part is when you prepare carefully. Once I joined a rock-climbing course, and I spent weeks learning how to use equipment safely. That proper preparation not only kept me safe, but also made the whole experience less stressful and more rewarding.",
-                        keywords: ["preparation", "not just brave", "rock-climbing", "spent weeks learning", "less stressful"],
-                        question: "Who thinks preparation is necessary before doing extreme sports?"
-                    },
-                    {
-                        person: "Person B",
-                        text: "I have always preferred traditional sports such as swimming and running because they keep me healthy without being too dangerous. Still, I wanted to know what an extreme sport would feel like, so I gave it a try. Last summer, I went bungee jumping, and while it was extremely scary, I enjoyed it. However, I understand that if I tried extreme sports too often, it might cause accidents for other people. Once joined a rock-climbing course, and I spent weeks learning how to use equipment safely. Now I try training regularly, but I stick to sports that feel more confident. I believe training is not only useful but also makes the whole experience less stressful and more rewarding.",
-                        keywords: ["traditional sports", "swimming running", "bungee jumping", "extremely scary", "stick to safer sports"],
-                        question: "Who usually does ordinary sports?"
-                    },
-                    {
-                        person: "Person C",
-                        text: "Honestly, I don't understand why people do extreme sports. They seem very risky and not necessary to me. I have never tried one and I don't plan to. Some of my friends invited me to join them for skydiving, but I decided that it was too dangerous for me to participate. I think people enjoy the adrenaline rush, but I don't see the point of risking my health just to feel a few seconds of excitement. To me, extreme sports are not important for a happy life and there are many safer activities that still bring joy and good memories.",
-                        keywords: ["don't understand", "very risky", "never tried", "too dangerous", "not important"],
-                        question: "Who once tried an extreme sport and enjoyed it?"
-                    },
-                    {
-                        person: "Person D",
-                        text: "What I really enjoy about extreme sports is that they often take place in nature. Last summer, I went kayaking on a wild river, and the scenery was breathtaking. I also tried mountain biking in the forest, and I loved the feeling of fresh air and freedom. It's not just about the sport itself, but about being surrounded by mountains, trees, and water. I sometimes wish I had more free time and money so that I could join these activities more often. Extreme sports give me energy and help me feel connected to the world around me.",
-                        keywords: ["take place in nature", "kayaking wild river", "mountain biking forest", "fresh air freedom", "feel connected"],
-                        question: "Who wishes to do more extreme sports in the future?"
-                    }
-                ],
-                questions: [
-                    { q: "Who thinks preparation is necessary before doing extreme sports?", a: "Person A" },
-                    { q: "Who usually does ordinary sports?", a: "Person B" },
-                    { q: "Who once tried an extreme sport and enjoyed it?", a: "Person B" },
-                    { q: "Who thinks doing too many extreme sports is not important?", a: "Person C" },
-                    { q: "Who wishes to do more extreme sports in the future?", a: "Person D" },
-                    { q: "Who believes extreme sports are not important?", a: "Person C" },
-                    { q: "Who always avoids extreme sports?", a: "Person C" }
-                ]
-            },
-            {
-                id: 4,
-                title: "Career (Mới)",
-                category: "Công việc",
-                conversations: [
-                    {
-                        person: "Person A",
-                        text: "When I finished school, some people told me that I should get a job immediately. However, I wanted to gain some hands-on experience first. That's why I applied for several volunteer positions. Even though I didn't receive any financial benefits, I was able to work in different fields. Looking back, I don't regret my choice at all because of all the knowledge I gained. - benefited from working for free",
-                        keywords: ["get job immediately", "volunteer", "hands-on experience", "no financial benefits", "knowledge gained"],
-                        question: "Who benefited from working for free?"
-                    },
-                    {
-                        person: "Person B",
-                        text: "I went straight to university after I graduated from high school. I have always wanted to become a teacher, so it was pointless to try any other professions. Three months ago, I went on an internship at a local school. It was definitely a mind-changing experience, though the workload was a bit more than I expected. Still, I would say it was very valuable. - did not want to change to other careers - enjoyed working when training",
-                        keywords: ["straight to university", "become teacher", "pointless try other", "internship", "mind-changing"],
-                        question: "Who did not want to change to other careers?"
-                    },
-                    {
-                        person: "Person C",
-                        text: "As a child, I lived near a plumber and worked with her. She gave me simple tasks like checking for any pipe leaks or securing the nails with a screw. It was interesting to me later to go to university to become an electrician. I wanted to study something practical. Now that I know they provide compact electrical courses online, I wish I had enrolled in them instead. - enjoyed doing things with their hands - thinks their training was too long",
-                        keywords: ["plumber", "simple tasks", "become electrician", "practical", "online courses", "wish enrolled"],
-                        question: "Who enjoyed doing things with their hands?"
-                    },
-                    {
-                        person: "Person D",
-                        text: "After school, I wanted some time to figure out what I wanted to do. Therefore, I searched for temporary positions. However, it wasn't easy to reach a deal because companies didn't want someone with no prior experience. In the end, a game company reached out to me and I agreed to work with them. It was a hybrid position, so sometimes I worked late in the evenings, but it didn't cause any problems for me. - enjoyed working in a flexible work environment - thinks it was hard to get the first job",
-                        keywords: ["figure out", "temporary positions", "no prior experience", "game company", "hybrid position", "flexible"],
-                        question: "Who enjoyed working in a flexible work environment?"
-                    }
-                ],
-                questions: [
-                    { q: "Who benefited from working for free?", a: "Person A" },
-                    { q: "Who did not want to change to other careers?", a: "Person B" },
-                    { q: "Who enjoyed working when training?", a: "Person B" },
-                    { q: "Who enjoyed doing things with their hands?", a: "Person C" },
-                    { q: "Who thinks their training was too long?", a: "Person C" },
-                    { q: "Who enjoyed working in a flexible work environment?", a: "Person D" },
-                    { q: "Who thinks it was hard to get the first job?", a: "Person D" }
-                ]
-            },
-            {
-                id: 5,
-                title: "New Station",
-                category: "Giao thông & Đô thị",
-                conversations: [
-                    {
-                        person: "Yulan",
-                        text: "The city planners say that there is a need to build a new station. Personally, I don't see the need for new train services, but when the trains required, they are always on time. The bus services, which I use to go to the hospital, are just the same.",
-                        keywords: ["don't see the need", "trains on time", "bus services same"],
-                        question: "Who thinks that people should plan their journey better?"
-                    },
-                    {
-                        person: "Moussa",
-                        text: "I take the train to work every day, and I am tired of the overcrowded trains. I can't even find a seat and have to see many people standing in a very crowded place. The buses are no better. I think the new station will make a big difference.",
-                        keywords: ["overcrowded trains", "can't find seat", "buses no better", "new station big difference"],
-                        question: "Who thinks that the transport doesn't need to be improved?"
-                    },
-                    {
-                        person: "Liam",
-                        text: "The city planners promised money for building a hospital. Now they say that they need to build a new station to improve the whole area as well. I don't understand. I may only take a trip or two a year on a train. I believe that there should be more money spent on improving medical services. Personally, I believe there should be more money spent on improving medical services.",
-                        keywords: ["promised hospital", "new station", "take trip once or twice", "more money on medical"],
-                        question: "Who thinks that the bus service should be better?"
-                    },
-                    {
-                        person: "Emla",
-                        text: "The new station will be in the residential area, close to the hospital and university. We already have buses for getting around, and even though they might be slow sometimes, that's not a reason for not punctuation. I always go to work on time, even in the high time in morning, as I always work on my schedule. I think people should do the same.",
-                        keywords: ["residential area", "buses slow", "always on time", "people should plan"],
-                        question: "Who thinks that the public transport is too busy?"
-                    }
-                ],
-                questions: [
-                    { q: "Who thinks that people should plan their journey better?", a: "Emla" },
-                    { q: "Who thinks that the transport doesn't need to be improved?", a: "Yulan" },
-                    { q: "Who thinks that the bus service should be better?", a: "Yulan" },
-                    { q: "Who thinks that the public transport is too busy?", a: "Moussa" },
-                    { q: "Who thinks that the station will improve train travel?", a: "Moussa" },
-                    { q: "Who thinks that better medical facilities are needed?", a: "Liam" },
-                    { q: "Who thinks that the station will cost too much to build?", a: "Liam" }
-                ]
-            },
-            {
-                id: 6,
-                title: "Technology",
-                category: "Công nghệ",
-                conversations: [
-                    {
-                        person: "Person A",
-                        text: "I moved to a new country, and it is challenging to stay in touch with relatives, but thanks to technology, I can stay connected with my family. I rely on video chat for this reason, and I believe many people nowadays depend on it too. It makes sense, and I have no issues with that. Technology has made our world much more convenient and accessible for all of us.",
-                        keywords: ["moved country", "stay in touch", "video chat", "makes sense", "convenient"],
-                        question: "Who uses technology to communicate with family?"
-                    },
-                    {
-                        person: "Person B",
-                        text: "I work in finance, and it is normal for me to use technology to update international banking information, and find out about the latest news. However, looking at my screen all day for work makes my eyes hurt. Also, using my phone for extended periods before bedtime affects my sleep, so I avoid it after 9 pm, but that may be a good reason not to use it.",
-                        keywords: ["work finance", "update banking", "screen hurts eyes", "affects sleep", "avoid after 9pm"],
-                        question: "Who believes that people too much rely on technology?"
-                    },
-                    {
-                        person: "Person C",
-                        text: "Our family uses technology a lot. My sister called Mom even inside the house! Although my dad told us not to use the phone at night, we still survive. I find it convenient to watch movies and listen to music. I also use it to play games with friends. My friends always have the most updated games, which puts pressure on me to buy the latest as soon as I can. I don't want to lag behind them.",
-                        keywords: ["family uses a lot", "sister calls inside house", "watch movies music", "play games", "pressure buy latest"],
-                        question: "Who advises against using technology before going to bed?"
-                    },
-                    {
-                        person: "Person D",
-                        text: "I'm quite a traditional painter, which is not common. I'm not addicted to technology, but perhaps I will use it more in the future. I don't even use it a laptop at home. Whenever I use it, I feel like my daughter tries to become really interested; so I have to keep it locked away. Although some of my friends are keen on using children to be exposed to technology, I think it would have much to offer children who can run development.",
-                        keywords: ["traditional painter", "not addicted", "don't use laptop", "daughter interested", "keep locked", "children exposed"],
-                        question: "Who uses technology for entertainment?"
-                    }
-                ],
-                questions: [
-                    { q: "Who uses technology to communicate with family?", a: "Person A" },
-                    { q: "Who believes that people too much rely on technology?", a: "Person A" },
-                    { q: "Who advises against using technology before going to bed?", a: "Person B" },
-                    { q: "Who has trouble to work with technology?", a: "Person B" },
-                    { q: "Who uses technology for entertainment?", a: "Person C" },
-                    { q: "Who often buy the latest technology products?", a: "Person C" },
-                    { q: "Who thinks children shouldn't use technology?", a: "Person D" }
-                ]
-            },
-            {
-                id: 7,
-                title: "Film",
-                category: "Giải trí & Văn hóa",
-                conversations: [
-                    {
-                        person: "Person A",
-                        text: "A friend recommended the film because she had read the novel. I thought it was excellent, and when I went to see the film, I was amazed by the plot (although some of the actors were outstanding, and the scenes where the zombies were finally defeated were amazing). The film was so exciting and scary at some times, I should have gone out—it would have been much better on the big screen.",
-                        keywords: ["friend recommended", "read novel", "excellent plot", "actors outstanding", "should see big screen"],
-                        question: "Who watched the film at home?"
-                    },
-                    {
-                        person: "Person B",
-                        text: "This was not a sequel, so I hadn't seen the previous films. I admit I felt completely lost. I'm pleased I had company. Luckily, my friend was able to explain who the characters were. There were some aspects I liked—the special effects, for example, were impressive, and the soundtrack was also fantastic. I would definitely be prepared if I watch it again. I'm not sure it will be easy, but I think I'll enjoy looking back and personally, films like this don't frighten me. I think I'll stick to romantic movies in the future.",
-                        keywords: ["not sequel", "felt lost", "friend explain", "special effects impressive", "stick to romantic"],
-                        question: "Who liked the story of the film?"
-                    },
-                    {
-                        person: "Person C",
-                        text: "Unfortunately, it wasn't as good as I expected. The written version was terrifying but also clever, but this film was boring and watching it. I ended up falling asleep halfway through the film, and it was rather uninspiring, and two and a half hours was excessive. I reckon the story could have been told in half the time. The film had its definite better tell the station, but perhaps cinema should have combined watching two films. Furthermore, cinema tickets are so costly these days. To be honest, I wish I hadn't wasted my money!",
-                        keywords: ["not as good", "boring", "fell asleep", "excessive time", "wasted money"],
-                        question: "Who thought the film was too long?"
-                    },
-                    {
-                        person: "Person D",
-                        text: "This was actually my second time watching it, but even though I knew what to expect, I still enjoyed watching the film. Whenever a zombie attack happened, it still felt like you are right there in the room with the characters. Being familiar with the film didn't make it easier! I was so relieved when my friend called after I got home so that I could chat about ordinary things and forget about it. Otherwise, I might have had nightmares!",
-                        keywords: ["second time", "knew what expect", "felt in room", "relieved friend called", "might have nightmares"],
-                        question: "Who has read the book about the film?"
-                    }
-                ],
-                questions: [
-                    { q: "Who watched the film at home?", a: "Person A" },
-                    { q: "Who liked the story of the film?", a: "Person A" },
-                    { q: "Who thought the film was too long?", a: "Person C" },
-                    { q: "Who has read the book about the film?", a: "Person A" },
-                    { q: "Who saw the film previously?", a: "Person D" },
-                    { q: "Who found the film scary?", a: "Person D" },
-                    { q: "Who watched with a friend?", a: "Person B" }
-                ]
-            },
-            {
-                id: 8,
-                title: "Going on Holiday",
-                category: "Du lịch",
-                conversations: [
-                    {
-                        person: "Person A",
-                        text: "Many people think that the beach is boring, but I disagree. It depends, such as the sun, that's why I have to go abroad. This year, my friend invited me to go mountain climbing, but I said no. It sounded too strenuous for me to enjoy the future.",
-                        keywords: ["beach not boring", "depends on sun", "go abroad", "mountain climbing too strenuous"],
-                        question: "Who likes going to the beach is boring?"
-                    },
-                    {
-                        person: "Person B",
-                        text: "Normally, I just travel somewhere near my house. I would walk. Not because I enjoy it, but because I don't have the money to buy a car. If I have money, I would travel abroad. It's my first time.",
-                        keywords: ["travel near house", "walk", "no money for car", "would travel abroad"],
-                        question: "Who prefers to stay at home?"
-                    },
-                    {
-                        person: "Person C",
-                        text: "I went mountain climbing last trip, but it was a disaster. However, I finished walking to see the beautiful landscapes. That's how I took up walking. However, I'm now retired. Travelling away is too stressful. I would rather something much simpler.",
-                        keywords: ["mountain climbing disaster", "finished walking", "beautiful landscapes", "now retired", "prefer simpler"],
-                        question: "Who likes going walking?"
-                    },
-                    {
-                        person: "Person D",
-                        text: "I keep a map of famous places. I would take and take pictures of these places. Lying on the beach, however, is boring. I don't know why people spend time doing such dull things.",
-                        keywords: ["map famous places", "take pictures", "beach boring", "dull"],
-                        question: "Who thinks a holiday requires good weather?"
-                    }
-                ],
-                questions: [
-                    { q: "Who likes going to the beach is boring?", a: "Person D" },
-                    { q: "Who thinks going to the beach is boring?", a: "Person D" },
-                    { q: "Who prefers to stay at home?", a: "Person B" },
-                    { q: "Who likes going walking?", a: "Person C" },
-                    { q: "Who thinks a holiday requires good weather?", a: "Person A" },
-                    { q: "Who wants to go mountain climbing?", a: "Person A" },
-                    { q: "Who has never been abroad?", a: "Person B" }
-                ]
-            },
-            {
-                id: 9,
-                title: "Visit an Island",
-                category: "Du lịch",
-                conversations: [
-                    {
-                        person: "Ali",
-                        text: "I was travelling to the beach. I think I have to walk quite a distance from the hotel to the beach, so I think I have to bring boots, however, when I opened the suitcase, I didn't see any boots. (1) But I still completed my first walk along the hotel's private beaches. One thing that made me the beaches are remote areas, so there are very few tourists. However, it also makes finding food and drinks more difficult. (2)",
-                        keywords: ["walk distance", "bring boots", "didn't see boots", "completed walk", "few tourists", "finding food difficult"],
-                        question: "Who forgot their swimming things?"
-                    },
-                    {
-                        person: "Bruno",
-                        text: "As an architect, I was more interested in the buildings than in visiting the beach. I have never spend time lying on the beach or buying souvenirs. I will go around the area to see the architecture of the houses, and I also find it interesting to visit the old, and it is great to see how people lived. One downside is that I travelled alone and had no one to share the costs with. But for me, this was still a great experience because I got to see many old houses.",
-                        keywords: ["architect", "interested buildings", "never spend time beach", "see architecture", "travelled alone", "great experience"],
-                        question: "Who liked to be alone?"
-                    },
-                    {
-                        person: "Carla",
-                        text: "The sharp bends of the island made me abandon the idea of renting a car because it was very dangerous. However, the buses were quite cheap. However, the buses are quite cheap and there are many time constraints. (1) We toured the neighborhoods on foot. I loved this experience because we would simply walk around and enjoy the beautiful sights. (2)",
-                        keywords: ["sharp bends", "abandon car idea", "dangerous", "buses cheap", "time constraints", "toured on foot", "loved experience"],
-                        question: "Who loved eating food here?"
-                    },
-                    {
-                        person: "Deniz",
-                        text: "There's a lot of food here, and I spend most of my time eating. I can't recommend any of the dishes they are all so impressive. (1) If you want to try local food yourself, you will have to take the bus to the market. Don't forget to visit the street market because they sell a lot of cool local products. I have a lot of good bargains there. (2)",
-                        keywords: ["lot of food", "spend time eating", "recommend dishes", "impressive", "try local food", "street market", "good bargains"],
-                        question: "Who liked buying things on the island?"
-                    }
-                ],
-                questions: [
-                    { q: "Who forgot their swimming things?", a: "Ali" },
-                    { q: "Who liked to be alone?", a: "Bruno" },
-                    { q: "Who loved eating food here?", a: "Deniz" },
-                    { q: "Who liked buying things on the island?", a: "Deniz" },
-                    { q: "Who spent a lot of money on transport?", a: "Bruno" },
-                    { q: "Who thought public transport could be improved?", a: "Carla" },
-                    { q: "Who liked to walk?", a: "Carla" }
-                ]
-            },
-            {
-                id: 10,
-                title: "Opinions on Flying",
-                category: "Du lịch",
-                conversations: [
-                    {
-                        person: "Person A",
-                        text: "I have a dream that I will work as a tour guide. So I understand that I will have to fly abroad. Flying has become too popular, even though it's not environmentally friendly, or the ticket prices are just too cheap. Personally, I believe that we should add taxes to airplane tickets to encourage people to use other transportation. These taxes can be used to contribute to environmental conservation campaigns.",
-                        keywords: ["work tour guide", "fly abroad", "not environmentally friendly", "add taxes", "conservation campaigns"],
-                        question: "Who suggests making flights more expensive?"
-                    },
-                    {
-                        person: "Person B",
-                        text: "My son and his family live far away from me, so I often fly to visit them three or four times a year. We usually appreciate the time we spend together, and are very happy to be able to meet each other and share our new story. I know that flying too much is not good for the environment, but I think we should do a better balance. I cannot damage my family life. For example, I buy locally produced food, buy fewer clothes, and reuse plastic bags.",
-                        keywords: ["son family far away", "fly three four times", "appreciate time", "balance", "locally produced", "reuse plastic"],
-                        question: "Who dislikes flying but needs to fly for work?"
-                    },
-                    {
-                        person: "Person C",
-                        text: "I used to travel frequently as a work. I work as a business consultant, and I had to fly to other countries every early morning, and that's what people call 'red eye' because all passengers are sleepy. Waiting at the airport is always unpleasant, especially if I had a quiet place to sit. Not only that, after a flight, you will want to see your valid check and wait in a long line. That's how I have discovered the pleasures of a connected train and stress-free journey. I am regularly on trains, and my sister and I often have a long train ride together every three weeks to see the views.",
-                        keywords: ["travel frequently work", "business consultant", "red eye", "waiting unpleasant", "discovered train pleasures", "regularly trains"],
-                        question: "Who likes relaxing when they travel?"
-                    },
-                    {
-                        person: "Person D",
-                        text: "People in the tourism industry, I am working as a travel writer, so the travel industry is my life. And you know, flying too frequently and doing anything too much can make people exhausted.",
-                        keywords: ["tourism industry", "travel writer", "flying too frequently", "exhausted"],
-                        question: "Who needs to fly for their work?"
-                    }
-                ],
-                questions: [
-                    { q: "Who suggests making flights more expensive?", a: "Person A" },
-                    { q: "Who dislikes flying but needs to fly for work?", a: "Person D" },
-                    { q: "Who likes relaxing when they travel?", a: "Person C" },
-                    { q: "Who needs to fly for their work?", a: "Person D" },
-                    { q: "Who visits relatives regularly?", a: "Person B" },
-                    { q: "Who wants to work in other countries?", a: "Person A" },
-                    { q: "Who finds flying tiring?", a: "Person D" }
-                ]
-            },
-            {
-                id: 11,
-                title: "Eating and Cooking",
-                category: "Ẩm thực",
-                conversations: [
-                    {
-                        person: "Cecilia",
-                        text: "As a child, I always enjoyed eating with friends, whether it was at family gatherings or simple meals after school. Sharing food was a way for me to bond with people, and it still brings me happy memories. I believe that the company makes the meal more enjoyable and turns any ordinary dish into a special occasion.",
-                        keywords: ["enjoyed eating with friends", "family gatherings", "sharing food", "bond with people", "company makes meal enjoyable"],
-                        question: "Who needs to save money on eating?"
-                    },
-                    {
-                        person: "Benigo",
-                        text: "A few years ago, I used to eat out a lot, but I realized I needed to save money on eating. Now, I prefer to eat alone, where I can enjoy my meal in peace without distractions. Eating alone allows me to focus on the taste of the food without the need for conversation.",
-                        keywords: ["used to eat out", "save money", "prefer eat alone", "peace without distractions", "focus on taste"],
-                        question: "Who likes a wide variety of food?"
-                    },
-                    {
-                        person: "Gloria",
-                        text: "Going to a restaurant is exciting because I like a wide variety of food, and I'm always eager to try new dishes from different cultures. I'm also taking a cookery course to improve my skills, so I can recreate delicious meals at home and expand my culinary knowledge.",
-                        keywords: ["restaurant exciting", "wide variety", "try new dishes", "taking cookery course", "expand culinary knowledge"],
-                        question: "Who prefers to eat home-cooked food?"
-                    },
-                    {
-                        person: "Alon",
-                        text: "Fast food is nowhere near as good as home-cooked food because it feels healthier and more comforting than eating out. However, I just eat a few types of food, sticking to familiar dishes that I know will be safe and delicious for me. I'm quite adventurous when it comes to trying new things, but I appreciate the comfort of my favorite meals.",
-                        keywords: ["fast food not good", "home-cooked healthier", "few types food", "familiar dishes", "appreciate comfort"],
-                        question: "Who enjoys eating with friends?"
-                    }
-                ],
-                questions: [
-                    { q: "Who needs to save money on eating?", a: "Ben" },
-                    { q: "Who likes a wide variety of food?", a: "Glo" },
-                    { q: "Who prefers to eat home-cooked food?", a: "Alon" },
-                    { q: "Who enjoys eating with friends?", a: "Ceci" },
-                    { q: "Who only eats a few types of food?", a: "Alon" },
-                    { q: "Who is taking a cookery course?", a: "Gloria" },
-                    { q: "Who prefers to eat alone?", a: "Ben" }
-                ]
-            },
-            {
-                id: 12,
-                title: "Visit a City (ĐÃ SỬA)",
-                category: "Du lịch",
-                conversations: [
-                    {
-                        person: "Person A",
-                        text: "I loved to the city last summer and I really like the atmosphere there. When it is hot, there are lots of live performances that take place outside the department stores. It prevents me from going inside and spending money. I was surprised with coming home with empty bags, a full wallet, and the impression of the performance.",
-                        keywords: ["loved the city", "like atmosphere", "live performances", "outside stores", "prevents spending", "empty bags full wallet"],
-                        question: "Who visits one part of the city?"
-                    },
-                    {
-                        person: "Person B",
-                        text: "When I go out, I have only two things to care about: good food and good play. I especially like the lunch in Stevenson. It upset me that it's expensive and I have to walk a long way to get there. However, I still had a pleasant day.",
-                        keywords: ["two things", "good food play", "like lunch", "expensive", "walk long way", "pleasant day"],
-                        question: "Who liked the public theatre hall in the city?"
-                    },
-                    {
-                        person: "Person C",
-                        text: "When I first came to the city, it surprised me how big it was. I was worried about getting around. The city has many parts, and the shopping part is very far from the green part. However, we were given the bus routes and we took a day ticket. The bus worked out very cheaply, and I felt lucky not to have to put any pressure on my sore feet.",
-                        keywords: ["first came", "surprised how big", "worried getting around", "bus routes", "day ticket", "bus cheap", "lucky sore feet"],
-                        question: "Who usually spends a lot of money on shopping?"
-                    },
-                    {
-                        person: "Person D",
-                        text: "I don't like big cities because of the crowds. However, I love going to Stevenson four or five times a year. There is an area outside the city where I often spend time relaxing. There is a lot of water, a small forest, and special picnic spots. They offer good services like cafes.",
-                        keywords: ["don't like big cities", "crowds", "love Stevenson", "four five times year", "area outside city", "water forest picnic"],
-                        question: "Who paid for their holidays using credit card?"
-                    }
-                ],
-                questions: [
-                    { q: "Who visits one part of the city?", a: "Person D" },
-                    { q: "Who liked the public theatre hall in the city?", a: "Person A" },
-                    { q: "Who usually spends a lot of money on shopping?", a: "Person A" },
-                    { q: "Who paid for their holidays using credit card?", a: "Person B" },
-                    { q: "Who thought the public transport system was good?", a: "Person C" },
-                    { q: "Who thought walking too much causes a problem?", a: "Person C" },
-                    { q: "Who likes the natural resort here?", a: "Person D" }
-                ]
-            },
-            {
-                id: 13,
-                title: "Sports - Doing Exercise",
-                category: "Thể thao",
-                conversations: [
-                    {
-                        person: "Person A",
-                        text: "Having a training buddy by our side can help us when we just don't feel motivated to exercise. Quite often in this situation, we don't need expert assistance at the local gym. We just need a little extra encouragement from someone who knows us and understands how to motivate us. Afterwards, we can discuss our aching muscles, and it's a great opportunity to enjoy a nutritious meal together. This also plays a role for both our bodies.",
-                        keywords: ["training buddy", "help when not motivated", "don't need expert", "extra encouragement", "discuss aching muscles", "nutritious meal"],
-                        question: "Who thinks a routine can help us do more sport?"
-                    },
-                    {
-                        person: "Person B",
-                        text: "As we get older, it's easier to forget things. This is especially true when it comes to working out, particularly when it gets difficult. By this, I don't mean preparing for things like long distance events, but rather the routines and workouts we need to follow. To truly benefit from these, we need to be done frequently, and ideally at the same time each day. In this way, it becomes an enjoyable and healthy routine.",
-                        keywords: ["get older forget", "especially working out", "routines workouts", "done frequently", "same time each day", "enjoyable healthy routine"],
-                        question: "Who thinks experiencing pain is not necessary?"
-                    },
-                    {
-                        person: "Person C",
-                        text: "The body and the relationship we have with it change with time. When we're older, it doesn't mean that we should stop being active. Of course, the need to compete or bend is less physically demanding than we did in school. Older adults simply don't need to compete or get hurt by the extra energy that young people often have.",
-                        keywords: ["body change with time", "older don't stop", "less physically demanding", "don't need compete", "don't get hurt", "young people energy"],
-                        question: "Who thinks competitions are not useful for everybody?"
-                    },
-                    {
-                        person: "Person D",
-                        text: "The whole motivation behind doing sport is the benefit for the body. Some people with unhealthy habits want to lose weight, or they constantly exercise to push themselves to the extreme. Perspectives on fitness, including frequency and intensity, have evolved. However, it's better to pay attention to what your body is telling you and take a balanced needs. If you're uncertain, consult a trainer at the local fitness center.",
-                        keywords: ["motivation benefit body", "unhealthy habits", "lose weight", "push to extreme", "perspectives evolved", "pay attention body", "balanced needs", "consult trainer"],
-                        question: "Who thinks working out with a friend is a good idea?"
-                    }
-                ],
-                questions: [
-                    { q: "Who thinks a routine can help us do more sport?", a: "Person B" },
-                    { q: "Who thinks experiencing pain is not necessary?", a: "Person D" },
-                    { q: "Who thinks competitions are not useful for everybody?", a: "Person C" },
-                    { q: "Who thinks working out with a friend is a good idea?", a: "Person A" },
-                    { q: "Who thinks exercise is for both the young and the elderly?", a: "Person C" },
-                    { q: "Who thinks eating proper food is very important?", a: "Person A" },
-                    { q: "Who thinks that at times we should seek expert advice?", a: "Person D" }
-                ]
-            },
-            {
-                id: 14,
-                title: "Watching Television",
-                category: "Giải trí & Văn hóa",
-                conversations: [
-                    {
-                        person: "Person A",
-                        text: "I know I have to spend time studying, but there are so many great TV shows, especially horror films. Also, once you watch it all, you will find it hard to stop watching. Besides, these TV shows often last for many weeks.",
-                        keywords: ["spend time studying", "many great TV shows", "horror films", "hard to stop", "last many weeks"],
-                        question: "Who watches TV instead of studying?"
-                    },
-                    {
-                        person: "Person B",
-                        text: "I often spend time watching the news on TV in the evening when I'm free. In the past, I often watched other programs on TV, but they often lost, so I gave up watching them. Nowadays, there are too many reality TV shows being shown on TV. Every day I see the same types of TV, so I turn them off because it's not very interesting things.",
-                        keywords: ["watching news evening", "often lost", "gave up", "too many reality shows", "turn off not interesting"],
-                        question: "Who kept up to date on cinema and music?"
-                    },
-                    {
-                        person: "Person C",
-                        text: "I wasn't good when I was in school because I often spent time watching cartoons on TV. However, I now watch nature documentaries and TV shows about science, history, and animals now. These help me to expand my knowledge a lot compared to when I was in school.",
-                        keywords: ["wasn't good school", "watching cartoons", "now watch documentaries", "science history animals", "expand knowledge"],
-                        question: "Who has lost interest in watching football on TV?"
-                    },
-                    {
-                        person: "Person D",
-                        text: "My husband usually schedules TV viewing for the weekend; he usually watches football or documentaries. I'm the one who says no to TV, and I doesn't even matter what program it is, because I just need to relax. However, I also want to update the news and other movies, but also songs. I also find reality TV shows very entertaining.",
-                        keywords: ["husband schedules weekend", "watches football documentaries", "says no to TV", "need to relax", "update news movies songs", "reality TV entertaining"],
-                        question: "Who avoids watching reality TV programs?"
-                    }
-                ],
-                questions: [
-                    { q: "Who watches TV instead of studying?", a: "Person A" },
-                    { q: "Who kept up to date on cinema and music?", a: "Person D" },
-                    { q: "Who has lost interest in watching football on TV?", a: "Person B" },
-                    { q: "Who avoids watching reality TV programs?", a: "Person B" },
-                    { q: "Who gets a lot of knowledge by watching TV?", a: "Person C" },
-                    { q: "Who isn't a very selective viewer?", a: "Person D" },
-                    { q: "Who keeps up to date on cinema and music?", a: "Person D" }
-                ]
-            },
-            {
-                id: 15,
-                title: "Volunteering to Clean a Local Park & Art",
-                category: "Hoạt động xã hội",
-                conversations: [
-                    {
-                        person: "Person A (Park)",
-                        text: "I just have too much work, so I don't have much free time for myself. This tight schedule makes it impossible for me to volunteer. I work six days a week, and the only time I have to myself is on weekends with my family. We usually visit the park to play games and take a walk. I am relieved to hear that the park will be cleaned by the children from the school soon. I believe experienced volunteers will work with them in the future, helping them sharpen skills needed for their future careers.",
-                        keywords: ["too much work", "tight schedule", "impossible volunteer", "work six days", "family weekends", "park cleaned by children"],
-                        question: "Who thinks the park is a beautiful place to relax?"
-                    },
-                    {
-                        person: "Person B (Park)",
-                        text: "I adore the gorgeous scenery and fresh air at the park. Therefore, I always bring my family to the park to relax every week to plant some flowers, so I could do it at my husband at help out since he usually doesn't do much anyway. I will make specific plans for everyone in the neighborhood to help out. Everyone will give their efforts to make our community beautiful.",
-                        keywords: ["adore gorgeous scenery", "bring family every week", "plant flowers", "husband help", "specific plans", "community beautiful"],
-                        question: "Who can't clean the park because of their busy work?"
-                    },
-                    {
-                        person: "Person C (Park)",
-                        text: "The park plays an important role in teaching children about responsibility through volunteering. Cleaning the local park not only helps keep the environment clean but also teaches kids the value of teamwork and dedication. We discuss their efforts to protect nature, whether it's picking up trash or planting flowers. Volunteering is a great way for children to improve their skills and mindset while making a positive impact on our community.",
-                        keywords: ["important role teaching", "responsibility", "keep environment clean", "value teamwork", "protect nature", "improve skills mindset"],
-                        question: "Who will ask others to work together to help?"
-                    },
-                    {
-                        person: "Person D (Park)",
-                        text: "This is a reminder that not just the park, but other areas in our town also need regular cleaning. Keeping our neighborhoods clean is important for a healthy environment. The community should work together to organize regular clean-up sessions more often, as ignoring trash can cause various problems in the future. Unpleasant. By joining these efforts, residents can take pride in their surroundings and make sure everyone has a nice place to enjoy.",
-                        keywords: ["not just park", "other areas need cleaning", "healthy environment", "organize regular sessions", "ignoring trash problems", "take pride"],
-                        question: "Who thinks cleaning should happen regularly?"
-                    },
-                    {
-                        person: "Person A (Art)",
-                        text: "I know the names of some famous artists, and I recognize some paintings. However, I only go to exhibitions when my friends are going there. I have never been the person to go alone. I find that seeing exhibitions is often boring when you go with other people. I can't help but feel that many galleries lack excitement. Despite this, I have tried to appreciate the skill it takes to create art, I can't help but feel that many galleries lack excitement. Despite painting is my favorite, but I would definitely be prepared to create rather than just observe.",
-                        keywords: ["know famous artists", "only go with friends", "never alone", "often boring", "galleries lack excitement", "prefer create than observe"],
-                        question: "Who thinks seeing an exhibition is boring?"
-                    },
-                    {
-                        person: "Person B (Art)",
-                        text: "I think that looking at art is a personal experience. I much prefer to see art on my own, where I can take my time to appreciate pieces without distraction. I think watching people or galleries should focus more on the art itself rather than chatting or using their phones. When I'm alone with a painting, I can truly appreciate it and reflect on what the artist intended.",
-                        keywords: ["personal experience", "prefer see art alone", "take time", "without distraction", "focus on art itself", "reflect artist intended"],
-                        question: "Who goes seeing exhibitions by themselves?"
-                    },
-                    {
-                        person: "Person C (Art)",
-                        text: "I find art fascinating. I have developed a good knowledge of various art movements and techniques over the years. Each piece tells a story, and I love discovering the history behind them. The styles, forms, and emotions captured in pieces really capture my imagination. I could spend hours discussing and analyzing art, and I always look forward to learning more.",
-                        keywords: ["find art fascinating", "good knowledge", "movements techniques", "piece tells story", "love discovering history", "could spend hours discussing"],
-                        question: "Who has good knowledge about art?"
-                    },
-                    {
-                        person: "Person D (Art)",
-                        text: "I have great memories associated with art, as I have been going to numerous art exhibitions throughout my whole life. I cherish the moments spent in these galleries with my family and friends. Seeing art with people close to me adds a special dimension to the experience; we share our thoughts and interpretations, which creates wonderful experiences have sparked lasting bonds and wonderful memories.",
-                        keywords: ["great memories", "going to numerous exhibitions", "whole life", "cherish moments", "with family friends", "share thoughts interpretations", "sparked lasting bonds"],
-                        question: "Who thinks visitors to the galleries should focus more on the art?"
-                    }
-                ],
-                questions: [
-                    { q: "Who thinks the park is a beautiful place to relax?", a: "Person B" },
-                    { q: "Who can't clean the park because of their busy work?", a: "Person A" },
-                    { q: "Who will ask others to work together to help?", a: "Person B" },
-                    { q: "Who thinks cleaning should happen regularly?", a: "Person D" },
-                    { q: "Who thinks volunteering is important for children?", a: "Person C" },
-                    { q: "Who thinks their local areas need cleaning?", a: "Person D" },
-                    { q: "Who thinks volunteering can help with future employment?", a: "Person A" },
-                    { q: "Who thinks seeing an exhibition is boring?", a: "Person A" },
-                    { q: "Who goes seeing exhibitions by themselves?", a: "Person B" },
-                    { q: "Who has good knowledge about art?", a: "Person C" },
-                    { q: "Who thinks visitors to the galleries should focus more on the art?", a: "Person B" },
-                    { q: "Who prefers going to art exhibitions with other people?", a: "Person D" },
-                    { q: "Who has been going to art exhibitions all their life?", a: "Person D" },
-                    { q: "Who has some artistic skills?", a: "Person A" }
-                ]
-            },
-            {
-                id: 16,
-                title: "A New Restaurant & Reading Books",
-                category: "Ẩm thực & Sách",
-                conversations: [
-                    {
-                        person: "Person A (Restaurant)",
-                        text: "The menu I read has a lot of good reviews online, and I decided to try it out. The prices are reasonable, and the food is good and varied. My favorite part is the starters—there are so many things that I don't know what to choose from. My only criticism is the noise level. The live show was excellent, but the volume was a bit low; they should turn it up next time. Despite that, I enjoyed the food and the show overall.",
-                        keywords: ["good reviews online", "prices reasonable", "food good varied", "favorite starters", "many things", "noise level criticism", "live show excellent"],
-                        question: "Who will definitely not come back to the restaurant again?"
-                    },
-                    {
-                        person: "Person B (Restaurant)",
-                        text: "I'm not sure if I'll return to it. The staff seemed like they had just had an argument, making the atmosphere unpleasant. Maybe they had a rough day. I ordered fish and chips. It is not bad, but not good either. People said this restaurant was excellent, but my experience might be an exception.",
-                        keywords: ["not sure return", "staff argument", "atmosphere unpleasant", "rough day", "fish chips", "not bad not good", "might be exception"],
-                        question: "Who was impressed by the range of the appetizers?"
-                    },
-                    {
-                        person: "Person C (Restaurant)",
-                        text: "I was looking forward to visiting this restaurant, but my first visit left me certain I won't come back. The staff wasn't friendly at all, and while the meal was huge, it made me question why they had so good a sign. The traditional style of the food didn't match the modern décor, creating an odd experience that I don't want to repeat. Additionally, the food was too expensive.",
-                        keywords: ["looking forward", "first visit", "won't come back", "staff not friendly", "meal huge", "traditional vs modern", "too expensive"],
-                        question: "Who didn't eat anything?"
-                    },
-                    {
-                        person: "Person D (Restaurant)",
-                        text: "The newspaper I saw has lots of appetizing food. Unfortunately, on the day I arrived, I was late, so I couldn't experience much. However, the drinks here were great. I tried a mango drink, and it was delicious. The background music was just right, and the food matched the atmosphere perfectly. Overall, it was great. I'll definitely come back on time next time to try their food.",
-                        keywords: ["newspaper appetizing", "arrived late", "couldn't experience much", "drinks great", "mango drink delicious", "music just right", "will come back"],
-                        question: "Who enjoyed the atmosphere of the restaurant?"
-                    },
-                    {
-                        person: "Person A (Reading)",
-                        text: "I used to struggle to finish a book we were expected to read. Now, I read for my own pleasure. I usually don't limit myself to getting 1 at a time. There are so many titles. I can choose from that get me excited. I have a list of books I hope to get to in the future.",
-                        keywords: ["used to struggle", "read for pleasure", "don't limit myself", "many titles", "list of books", "hope to get future"],
-                        question: "Who thinks reading factual books is boring?"
-                    },
-                    {
-                        person: "Person B (Reading)",
-                        text: "I often keep a book on the bedside table to read before going to sleep. The struggle is, I get too halfway through. However, something happens, and I fall asleep! I've been reading that one book for half a year, but have only read chapter 2. However, when I read factual books, I find them very interesting, and it keeps me awake for hours to finish.",
-                        keywords: ["book bedside table", "read before sleep", "get halfway", "fall asleep", "reading half year", "only chapter 2", "factual books interesting"],
-                        question: "Who reads more than another family member?"
-                    },
-                    {
-                        person: "Person C (Reading)",
-                        text: "My job requires me to read many books. They are full of facts, statistics and are really dull. I can't imagine reading them with pleasure. I would prefer something light, such as mystery novels or comedy. I often read on the trains to work. With my child, I don't have other opportunities. Therefore, a book can last me a week.",
-                        keywords: ["job requires read", "full of facts statistics", "really dull", "prefer something light", "mystery novels comedy", "read on trains", "book last week"],
-                        question: "Who has limited time for reading?"
-                    },
-                    {
-                        person: "Person D (Reading)",
-                        text: "My wife often complains about not having time to read. I tell her to make the time. I often calculate my free time reading books. I know in advance whether I should read a book or do other things, as long as I can finish many books. My wife laughs at me about that, but it's not the problem.",
-                        keywords: ["wife complains", "tell her make time", "calculate free time", "know in advance", "finish many books", "wife laughs", "not the problem"],
-                        question: "Who has difficulty finishing a book?"
-                    }
-                ],
-                questions: [
-                    { q: "Who will definitely not come back to the restaurant again?", a: "Person C" },
-                    { q: "Who was impressed by the range of the appetizers?", a: "Person A" },
-                    { q: "Who didn't eat anything?", a: "Person D" },
-                    { q: "Who enjoyed the atmosphere of the restaurant?", a: "Person D" },
-                    { q: "Who thinks the quality of the food is average?", a: "Person B" },
-                    { q: "Who thinks their bad experience was probably unusual?", a: "Person B" },
-                    { q: "Who thinks the music was too quiet?", a: "Person A" },
-                    { q: "Who thinks reading factual books is boring?", a: "Person C" },
-                    { q: "Who reads more than another family member?", a: "Person D" },
-                    { q: "Who has limited time for reading?", a: "Person C" },
-                    { q: "Who has difficulty finishing a book?", a: "Person B" },
-                    { q: "Who reads many books at once?", a: "Person A" },
-                    { q: "Who plans their reading schedule?", a: "Person D" },
-                    { q: "Who wants to read a lot of books?", a: "Person A" }
-                ]
+        const topics = {
+            "Lifestyle & Daily Life": [
+                {
+                    id: 1,
+                    title: "eating and cooking",
+                    conversations: [
+                        {
+                            person: "Cecilia",
+                            text: "As a child, I always enjoyed eating with friends, whether it was at family gatherings or simple meals after school. Sharing food was a way for me to bond with people, and it still brings back happy memories. I believe that the company makes the meal more enjoyable, and it turns into a special occasion."
+                        },
+                        {
+                            person: "Benigo",
+                            text: "A few years ago, I used to eat out a lot, but I realized I needed to save money on eating. Now, I prefer to eat alone, where I can enjoy my meal in peace without distractions. Eating alone allows me to focus on the taste and quality of the food without the need for conversation."
+                        },
+                        {
+                            person: "Gloria",
+                            text: "Going to a restaurant is exciting because I like a wide variety of food, and I'm always eager to try new dishes from different cultures. I'm also taking a cookery course to improve it, so I can recreate some of my favorite meals at home and expand my culinary knowledge."
+                        },
+                        {
+                            person: "Alon",
+                            text: "Fast food is nowhere near as good as home-cooked food because it feels healthier and more comforting than eating out. However, I just eat a few types of food, sticking to familiar dishes that I know I'll enjoy. I'm not very adventurous when it comes to trying new things, but I appreciate the comfort of my favorite meals."
+                        }
+                    ],
+                    questions: [
+                        { question: "1. Who needs to save money on eating?", answer: "Ben" },
+                        { question: "2. Who likes a wide variety of food?", answer: "Glo" },
+                        { question: "3. Who prefers to eat home-cooked food?", answer: "Alon" },
+                        { question: "4. Who enjoys eating with friends?", answer: "Ceci" },
+                        { question: "5. Who only eats a few types of food?", answer: "Alon" },
+                        { question: "6. Who is taking a cookery course?", answer: "Gloria" },
+                        { question: "7. Who prefers to eat alone?", answer: "Ben" }
+                    ],
+                    tips: "Mẹo ghi nhớ: Ben tiết kiệm ăn một mình | Gloria thích đa dạng và học nấu ăn | Alon ít món, thích đồ nhà | Cecilia thích ăn cùng bạn bè"
+                },
+                {
+                    id: 2,
+                    title: "visit a city (ĐÃ SỬA)",
+                    conversations: [
+                        {
+                            person: "Person A",
+                            text: "I love to the city last summer and I really like the atmosphere there. When it is hot, there are lots of live performances that take place outside the department stores. It prevents me from going inside and spending money. I was surprised coming home from my last bags, and the reason of the last performance."
+                        },
+                        {
+                            person: "Person B",
+                            text: "When I go out, I have only two things to care about: good food and good play. I especially like to have lunch in Stevenson. It surprised me that it's expensive and I have to walk a long way to get there. However, I still had a pleasant day."
+                        },
+                        {
+                            person: "Person C",
+                            text: "When I first came to the city, it surprised me how big it was. I was worried about getting around. The city has many parts, and the shopping part is very far from the green part. However, we were given the bus routes and we took a day ticket. The bus worked out very cheaply, and I felt lucky not to have to put any pressure on my sore feet."
+                        },
+                        {
+                            person: "Person D",
+                            text: "I don't like big cities because of the crowds. However, I love going to Stevenson four or five times a year. There is an area outside the city where I often spend time relaxing. There is a lot of water, a small forest, and special picnic spots. They offer good services like cafes."
+                        }
+                    ],
+                    questions: [
+                        { question: "1. Who visits one part of the city?", answer: "Person D" },
+                        { question: "2. Who liked the public transport that the city has?", answer: "Person A" },
+                        { question: "3. Who usually spends a lot of money on shopping?", answer: "Person A" },
+                        { question: "4. Who paid a lot for their meal?", answer: "Person B" },
+                        { question: "5. Who thought the public transport system was good?", answer: "Person C" },
+                        { question: "6. Who thought walking too much causes a problem?", answer: "Person C" },
+                        { question: "7. Who likes the natural resort here?", answer: "Person D" }
+                    ],
+                    tips: "Person A - biểu diễn ngoài trời, shopping | Person B - ăn đắt ở Stevenson | Person C - xe bus tiện, sợ đau chân | Person D - không thích đông, thích khu picnic"
+                },
+                {
+                    id: 3,
+                    title: "sports - doing exercise",
+                    conversations: [
+                        {
+                            person: "Person A",
+                            text: "Having a gym by our side can help us when we just don't feel motivated to exercise. Quite often in this situation, we don't need expert assistance at the local gym. We just need a little extra encouragement from someone who knows us and understands how to motivate us. Afterwards, we can discuss our aching muscles, and it's a great opportunity to enjoy a nutritious meal together. This also plays a role in restoring energy to our bodies."
+                        },
+                        {
+                            person: "Person B",
+                            text: "As we get older, it's easier to forget things. This is especially true when it comes to working out, particularly when it gets difficult. By this, I don't mean preparing for things like long-distance events, but rather the routines and workouts we do regularly. To truly gain from these, they need to be done frequently, and ideally at the same time each day. In this way, it becomes an enjoyable and healthy routine."
+                        },
+                        {
+                            person: "Person C",
+                            text: "The body and the relationship we have with it change with time. When we're older, things simply aren't how they was in our younger years. These days, it doesn't mean that people should stop being active. Of course, the need to compete or bend is less physically demanding than we did in school. Older adults simply don't need to compete or get hurt by the extra energy that young people often have."
+                        },
+                        {
+                            person: "Person D",
+                            text: "The whole motivation behind doing sport is the benefit for the body. Some people with unhealthy ideas want to lose weight, so they constantly push themselves to the extreme. Perspectives on fitness, including frequency and intensity, have evolved. However, it's better to pay attention to what your body is telling you and take a balanced approach. If you're uncertain, consult a trainer at the local fitness center."
+                        }
+                    ],
+                    questions: [
+                        { question: "1. Who thinks a routine can help us do more sport?", answer: "Person B" },
+                        { question: "2. Who thinks experiencing pain is not necessary?", answer: "Person D" },
+                        { question: "3. Who thinks competitions are not useful for everybody?", answer: "Person C" },
+                        { question: "4. Who thinks working out with a friend is a good idea?", answer: "Person A" },
+                        { question: "5. Who thinks exercise is for both the young and the elderly?", answer: "Person C" },
+                        { question: "6. Who thinks eating proper food is very important?", answer: "Person A" },
+                        { question: "7. Who thinks that at times we should seek expert advice?", answer: "Person D" }
+                    ],
+                    tips: "Person A - tập với bạn, ăn uống tốt | Person B - routine đều đặn | Person C - không cần thi đấu, mọi lứa tuổi | Person D - lắng nghe cơ thể, tư vấn chuyên gia"
+                },
+                {
+                    id: 8,
+                    title: "a new restaurant",
+                    conversations: [
+                        {
+                            person: "Person A",
+                            text: "The menu I read has a lot of good reviews online, and I decided to try it out. The prices are reasonable, and the food is good and varied. My favorite part is the starters—there are so many things that I don't know what to choose from. My only criticism is the noise level. The live show was excellent, but the volume was a bit low; they should turn it up next time. Despite that, I enjoyed the food and the show overall."
+                        },
+                        {
+                            person: "Person B",
+                            text: "I'm not sure if I'll return to it. The staff seemed like they had just had an argument, making the atmosphere unpleasant. Maybe they had a rough day. I ordered fish and chips. It is not bad, but not good either. People said this restaurant was excellent, but my experience might be an exception."
+                        },
+                        {
+                            person: "Person C",
+                            text: "I was looking forward to visiting this restaurant, but my first visit left me certain I won't come back. The staff wasn't friendly at all, and while the meal was huge, it made me question whether that was a good sign. The traditional style of the food didn't match the modern décor, creating an odd experience that I don't want to repeat. Additionally, the food was too expensive."
+                        },
+                        {
+                            person: "Person D",
+                            text: "The newspaper I saw has lots of appetizing food. Unfortunately, on the day I arrived, I was late, so I couldn't experience much. However, the drinks here were great. I tried a mango drink, and it was delicious. The background music was just right, and the food matched the atmosphere perfectly. Overall, it was great. I'll definitely come back on time next time to try their food."
+                        }
+                    ],
+                    questions: [
+                        { question: "1. Who will definitely not come back to the restaurant again?", answer: "Person C" },
+                        { question: "2. Who was impressed by the range of the appetizers?", answer: "Person A" },
+                        { question: "3. Who didn't eat anything?", answer: "Person D" },
+                        { question: "4. Who enjoyed the atmosphere of the restaurant?", answer: "Person D" },
+                        { question: "5. Who thinks the quality of the food is average?", answer: "Person B" },
+                        { question: "6. Who thinks their bad experience was probably unusual?", answer: "Person B" },
+                        { question: "7. Who thinks the music was too quiet?", answer: "Person A" }
+                    ],
+                    tips: "Person A - thích khai vị, nhạc nhỏ | Person B - không chắc quay lại, đồ bình thường | Person C - không quay lại, không thân thiện, đắt | Person D - đến muộn, thích đồ uống và không khí"
+                },
+                {
+                    id: 9,
+                    title: "reading books (ĐÃ SỬA)",
+                    conversations: [
+                        {
+                            person: "Person A",
+                            text: "I used to struggle to finish a book we were expected to read. Now, I read for my own pleasure. I usually don't limit myself to getting 1 at a time. There are so many titles I can choose from that get me excited. I have a list of books I hope to get to in the future."
+                        },
+                        {
+                            person: "Person B",
+                            text: "I often keep a book on the bedside table to read before going to sleep. The struggle is, I get tired halfway through the first page, and I fall asleep. I've been reading that one book for half a year, but have only read chapter 6. However, when I read factual books, I find them very interesting, and it keeps me awake for hours to finish."
+                        },
+                        {
+                            person: "Person C",
+                            text: "My job requires me to read many books. They are full of facts, statistics and are really dull. I can't imagine reading them with pleasure. I would prefer something light, such as mystery novels or comedies. When the trains to work, with my child, I don't have other opportunities. Therefore, a book can last me a week."
+                        },
+                        {
+                            person: "Person D",
+                            text: "My wife often complains about not having time to read. I tell her to make the time. I often calculate my free time reading books. I know in advance whether I should read a book or do other things, as long as I can finish many books. My wife laughs at me about that, but it's not the problem."
+                        }
+                    ],
+                    questions: [
+                        { question: "1. Who thinks reading factual books is boring?", answer: "Person C" },
+                        { question: "2. Who reads more than another family member?", answer: "Person D" },
+                        { question: "3. Who has limited time for reading?", answer: "Person C" },
+                        { question: "4. Who has difficulty finishing a book?", answer: "Person B" },
+                        { question: "5. Who reads many books at once?", answer: "Person A" },
+                        { question: "6. Who plans the reading schedule?", answer: "Person D" },
+                        { question: "7. Who wants to read a lot of books?", answer: "Person A" }
+                    ],
+                    tips: "Person A - đọc nhiều sách cùng lúc, có danh sách | Person B - đọc truyện ngủ, mất 6 tháng mới được chap 6 | Person C - sách công việc nhàm, ít thời gian | Person D - lên lịch đọc, vợ phàn nàn"
+                }
+            ],
+            "Travel & Holidays": [
+                {
+                    id: 4,
+                    title: "going on holiday",
+                    conversations: [
+                        {
+                            person: "Person A",
+                            text: "Many people say that the beach is boring, but I disagree. It depends, such as the sun, that's why I have to go abroad. This year, my friend invited me to go mountain climbing, but I said no. I think I'd try it someday in the future."
+                        },
+                        {
+                            person: "Person B",
+                            text: "Normally, I just travel somewhere near my house. I would walk. Not because I enjoy it, but because I don't have the money to buy a car. If I have money, I would travel abroad. It's my first time."
+                        },
+                        {
+                            person: "Person C",
+                            text: "I went mountain climbing last trip, but it was a disaster. However, I finished walking to see the beautiful landscapes. That's how I took up walking. However, I'm now retired. Travelling away is stressful. I would prefer something nearby."
+                        },
+                        {
+                            person: "Person D",
+                            text: "I keep a map of famous places. I would travel and take pictures of these places. Lying on the beach, however, is boring. I don't know why people spend time doing such dull things."
+                        }
+                    ],
+                    questions: [
+                        { question: "Who likes seeing tourist attractions?", answer: "Person D" },
+                        { question: "Who thinks going to the beach is boring?", answer: "Person D" },
+                        { question: "Who prefers to stay at home?", answer: "Person C" },
+                        { question: "Who likes going walking?", answer: "Person C" },
+                        { question: "Who thinks a holiday requires good weather?", answer: "Person A" },
+                        { question: "Who wants to go mountain climbing?", answer: "Person A" },
+                        { question: "Who has never been abroad?", answer: "Person B" }
+                    ],
+                    tips: "Person A - thích biển, từ chối leo núi | Person B - chưa đi nước ngoài, không có tiền | Person C - về hưu, thích đi bộ gần nhà | Person D - chụp ảnh danh lam, không thích biển"
+                },
+                {
+                    id: 5,
+                    title: "visit an island",
+                    conversations: [
+                        {
+                            person: "Ali",
+                            text: "I like traveling to the beach. I think I have to walk quite a distance from the hotel to the beach, so I think I have to bring boots. however, when I opened the suitcase, I didn't see any boots. (1) But I still completed the trip and saw many beautiful places. The beaches are in remote areas, so there are very few tourists. However, it also makes finding food and drinks more difficult. (2) Bruno: The island shops, I have always liked building things, and when I travel, I never spend time lying on the beach or buying souvenirs. I will go around the area to see the architecture of the houses. I chose to go around by taxi, and it was great. However, it cost me a lot because I traveled alone and had no one to share the costs with. But for me, this was still a great experience because I got to see many old houses."
+                        },
+                        {
+                            person: "Carla",
+                            text: "The sharp rocks of the island made me abandon the idea of renting a car because it was very dangerous. I decided to take the bus, which was also much cheaper. However, the bus routes are quite few and there are many time constraints. (1) We toured the neighborhoods on foot. I loved this experience because I could admire the sights. (2)"
+                        },
+                        {
+                            person: "Deniz",
+                            text: "There's a lot of food here, and I spend most of my time eating. I can't recommend any of the dishes because they are all very impressive. (1) If you want to cook for yourself, you will have to take the bus to the market. Don't forget to visit the street market because they sell a lot of local products. I have a lot of good bargains there. (2)"
+                        }
+                    ],
+                    questions: [
+                        { question: "1. Who forgot to bring something?", answer: "Ali" },
+                        { question: "2. Who liked to be alone?", answer: "Ali" },
+                        { question: "3. Who loved eating food here?", answer: "Deniz" },
+                        { question: "4. Who liked buying things on the island?", answer: "Deniz" },
+                        { question: "5. Who spent a lot of money on transport?", answer: "Bruno" },
+                        { question: "6. Who thought public transport could be improved?", answer: "Carla" },
+                        { question: "7. Who liked to walk?", answer: "Carla" }
+                    ],
+                    tips: "Ali - quên boots, ít khách du lịch | Bruno - thích kiến trúc, taxi đắt một mình | Carla - xe bus ít, đi bộ ngắm cảnh | Deniz - ăn nhiều, chợ rẻ"
+                },
+                {
+                    id: 6,
+                    title: "Opinions on flying",
+                    conversations: [
+                        {
+                            person: "Person A",
+                            text: "I have a dream that I will work as a tour guide. So I understand that I will have to fly abroad. Flying has developed, even though it is not environmentally friendly. Still, the ticket prices are just too cheap. Personally, I believe that we should add taxes to airplane tickets to encourage people to use other forms of transport. These taxes can be used to support environmental conservation campaigns."
+                        },
+                        {
+                            person: "Person B",
+                            text: "My family live far away from me, so I often fly to visit them three or four times a year. We really appreciate the time we spend together, and we are happy to be able to meet each other and share new stories. I know that flying causes much environmental damage, but I think I am doing a good balance. I carefully manage my energy use. For example, I buy locally produced food, use second-hand clothes, and reuse plastic bags."
+                        },
+                        {
+                            person: "Person C",
+                            text: "I used to travel frequently as I work in a business trade. I had to fly to other countries every early June. However, that must stop now because I am busy with passengers. Waiting at the airport is always annoying and noisy, and I need a quiet place to concentrate. Not only that, a flight - you will need to check-in in a hotel. That's how I have discovered the pleasure of a comfortable and stress-free journey. Now, I am retired, and my sister and I often have a long train ride together every three weeks as a hobby."
+                        },
+                        {
+                            person: "Person D",
+                            text: "People often find it strange that I dislike flying. I am working as a travel writer, so the travel industry is my life. And of course, flying too frequently will cause us to do a lot, which can make people exhausted."
+                        }
+                    ],
+                    questions: [
+                        { question: "1. Who tries to protect the environment?", answer: "Person B" },
+                        { question: "2. Who likes relaxing while they travel?", answer: "Person C" },
+                        { question: "3. Who finds flying tiring?", answer: "Person D" },
+                        { question: "4. Who needs to fly for their work?", answer: "Person D" },
+                        { question: "5. Who suggests making flights more expensive?", answer: "Person A" },
+                        { question: "6. Who wants to work in other countries?", answer: "Person A" },
+                        { question: "7. Who visits relatives regularly?", answer: "Person B" }
+                    ],
+                    tips: "Person A - muốn làm hướng dẫn viên, tăng thuế vé máy bay | Person B - bay thăm gia đình, cân bằng môi trường | Person C - về hưu, thích tàu hỏa hơn máy bay | Person D - nhà văn du lịch, bay nhiều mệt"
+                }
+            ],
+            "Technology & Modern Life": [
+                {
+                    id: 7,
+                    title: "new station",
+                    conversations: [
+                        {
+                            person: "Yulan",
+                            text: "The city planners say that there is a need to build a new station. Personally, I don't see the trains regularly, but when I do, there are often so many on the bus services, which I use to go to the hospital, are just the same."
+                        },
+                        {
+                            person: "Moussa",
+                            text: "I take the train to work every day, and I am tired of the overcrowded trains. I can't even find a seat, and there are so many people on the train every day that services are no better. I think the new station will make a big difference."
+                        },
+                        {
+                            person: "Liam",
+                            text: "The city planners promised money for building a hospital. Now they say that they need to build a new station to improve the bus and train service. I don't think it may require a whole annual budget and leave no money to invest in health facilities. Personally, I believe there should be more money for improving medical services."
+                        },
+                        {
+                            person: "Emia",
+                            text: "The new station will be in the residential area, close to the hospital and university. We already have buses for getting around, and even though they might be slow sometimes, that's not a reason to build a new train station. It will cost far too much to build as I always work on my schedule. I think people should do the same."
+                        }
+                    ],
+                    questions: [
+                        { question: "1. Who thinks that people should plan their journey better?", answer: "Emia" },
+                        { question: "2. Who thinks that public transport doesn't need to be improved?", answer: "Yulan" },
+                        { question: "3. Who thinks that the bus has good service?", answer: "Yulan" },
+                        { question: "4. Who thinks that the public transport is too busy?", answer: "Moussa" },
+                        { question: "5. Who thinks that the station will improve train travel?", answer: "Moussa" },
+                        { question: "6. Who thinks that better medical facilities are needed?", answer: "Liam" },
+                        { question: "7. Who thinks that the station will cost too much to build?", answer: "Liam" }
+                    ],
+                    tips: "Yulan - không thấy cần ga mới, xe bus tốt | Moussa - tàu đông, ga mới cải thiện | Liam - tiền nên cho y tế hơn | Emia - xe bus đủ, ga mới tốn kém"
+                },
+                {
+                    id: 10,
+                    title: "Technology",
+                    conversations: [
+                        {
+                            person: "Person A",
+                            text: "I moved to a new country, and it is challenging to stay in touch with relatives, but thanks to technology, I can now easily connect with my family. I view technology as the reason, and I believe many people nowadays depend on it too. It makes sense, and I have no issues with that. Technology has made staying connected much easier for all of us."
+                        },
+                        {
+                            person: "Person B",
+                            text: "I work in finance, and it is normal for me to use technology to update international banking information. However, looking at a screen for too long makes my eyes hurt. Also, using my phone for extended periods before bedtime affects my sleep, so I avoid it 9 p.m. to ensure a good night's rest."
+                        },
+                        {
+                            person: "Person C",
+                            text: "Our family uses technology a lot. My sister called Mom even inside the house! Although my dad told me to use my phone all the time. I use it anyway. I find it convenient to watch movies and listen to music. I also use it to play games with friends. My friends always have the most advanced technology. They always buy the latest one like me. I don't want to fall behind them."
+                        },
+                        {
+                            person: "Person D",
+                            text: "I'm a professional painter, which is not traditionally connected to technology, but perhaps I will use it more in the future. I have a laptop at home. Whenever I use it, my daughter becomes really annoyed as I have to keep it locked away. Although some of my friends even on letting children be exposed to technology, I think it would have an effect on their brain development."
+                        }
+                    ],
+                    questions: [
+                        { question: "1. Who uses technology to communicate with family?", answer: "Person A" },
+                        { question: "2. Who believes that people depend too much on technology?", answer: "Person A" },
+                        { question: "3. Who advises against using technology before going to bed?", answer: "Person B" },
+                        { question: "4. Who uses technology for work purposes?", answer: "Person B" },
+                        { question: "5. Who uses technology for entertainment?", answer: "Person C" },
+                        { question: "6. Who buys the latest technology products?", answer: "Person C" },
+                        { question: "7. Who thinks children shouldn't use technology?", answer: "Person D" }
+                    ],
+                    tips: "Person A - kết nối gia đình, người ta phụ thuộc nhiều | Person B - công việc tài chính, tránh trước ngủ | Person C - giải trí, mua công nghệ mới nhất | Person D - họa sĩ, trẻ em không nên dùng"
+                }
+            ],
+            "Entertainment & Media": [
+                {
+                    id: 11,
+                    title: "Film",
+                    conversations: [
+                        {
+                            person: "Person A",
+                            text: "A friend recommended the film because she had read the novel. I thought it was excellent, and I was captivated by the plot throughout, even though it was lengthy. Some of the actors were outstanding, and the scenes where the zombies were finally defeated were amazing. The only thing I didn't like was my choice of viewing location. I should have gone earlier—I would have felt safer on the big screen."
+                        },
+                        {
+                            person: "Person B",
+                            text: "This was a sequel, and I hadn't seen the prior film, so I had to admit I felt completely lost. I'm pleased I had company, though. Luckily, my friend was able to explain what the characters were. There were some aspects I liked—the special effects, for example, were impressive, and the soundtrack was lovely. I would definitely recommend it to people who don't feeling scared, but personally, I prefer them not to make more thriller and romantic movies in the future."
+                        },
+                        {
+                            person: "Person C",
+                            text: "Unfortunately, it wasn't as good as I expected. The written version was terrifying but also thrilling. However, I ended up feeling bored while watching the film. The acting was rather uninspiring, and two and a half hours was excessive. I reckon the story could have been told in far less time. It was definitely better to read it page than on the big screen. Furthermore, cinema tickets are so costly these days. To be honest, I wish I hadn't wasted my money!"
+                        },
+                        {
+                            person: "Person D",
+                            text: "This was actually my second time watching it, but even though I knew what to expect, I still felt scared whenever a zombie attack happened. The direction really makes it feel like you are right there in the room with the characters. Being in the room at the end didn't make it easier! I was so relieved when my friend called after I got home so that I could chat about ordinary things and forget about it. Otherwise, I might have had nightmares!"
+                        }
+                    ],
+                    questions: [
+                        { question: "A: + Who watched the film at home?", answer: "" },
+                        { question: "+ Who liked the story of the film?", answer: "" },
+                        { question: "B: + Who saw the film with a friend?", answer: "" },
+                        { question: "C: + Who thought the film was too long?", answer: "" },
+                        { question: "+ Who has read the book about the film?", answer: "" },
+                        { question: "D: + Who saw the film previously?", answer: "" },
+                        { question: "+ Who found the film scary?", answer: "" }
+                    ],
+                    tips: "Person A - bạn giới thiệu, diễn viên tốt, địa điểm xem không phù hợp | Person B - phần tiếp theo, hiệu ứng đẹp, nhạc hay | Person C - chán, dài, lãng phí tiền | Person D - lần 2, vẫn sợ, gọi bạn sau khi về"
+                },
+                {
+                    id: 12,
+                    title: "Music festival",
+                    conversations: [
+                        {
+                            person: "Person A",
+                            text: "This is my first time going to a concert. I didn't feel very well during the first two days because it was raining and the music was just of average. It would have been much nicer if there had been some sunshine. Fortunately, the final day was wonderful, and I was able to meet my favorite singers and create unforgettable memories."
+                        },
+                        {
+                            person: "Person B",
+                            text: "I attend music festivals every year. It has become a tradition for me, as I truly love the lively atmosphere filled with people and music. This festival, however, felt rather unusual. The weather was not ideal, but that didn't really bother me, since I have been to rain-free festivals and still had fun. The location was only somewhat convenient, and the music was quite average. Honestly, I don't think I will return in the future."
+                        },
+                        {
+                            person: "Person C",
+                            text: "I don't like one particular type of music being played at festivals. I prefer an album with a mix of genres to dance to, and this show really met my expectations. The melodies performed were simply astonishing. I did not think it was full of life, let alone all that. In fact, I felt sad to see so many people lively. However, I noticed that the ticket price was rather high, and not many students could afford it. Personally, I had to save money for months before attending."
+                        },
+                        {
+                            person: "Person D",
+                            text: "My band and I were invited to play at this festival. We gave our usual performance and were able to create a memorable show. Some of our old members were there, along with artists we had collaborated with in the past. It was wonderful catching up with them after the event. Unfortunately, the venue was far from the main road, and transporting our equipment was quite difficult."
+                        }
+                    ],
+                    questions: [
+                        { question: "Who is disappointed with the weather?", answer: "Person A" },
+                        { question: "Who didn't like the festival?", answer: "Person B" },
+                        { question: "Who enjoyed all the music at the music event?", answer: "Person C" },
+                        { question: "Who likes meeting old friends?", answer: "Person D" },
+                        { question: "Who enjoyed the final day of the music event?", answer: "Person A" },
+                        { question: "Who thought traffic was difficult?", answer: "Person D" },
+                        { question: "Who thought the event was expensive?", answer: "Person C" }
+                    ],
+                    tips: "Person A - lần đầu, thời tiết xấu 2 ngày đầu | Person B - hàng năm, lần này không hay | Person C - thích đa dạng, vé đắt | Person D - ban nhạc biểu diễn, gặp bạn cũ, giao thông khó"
+                }
+            ],
+            "Life Experiences & Personal Growth": [
+                {
+                    id: 13,
+                    title: "childhood",
+                    conversations: [
+                        {
+                            person: "Person A",
+                            text: "As a child, I spent hours playing board games with my friends. The rules were pretty straightforward and easy to understand. As I grew older, I thought it would be a great chance for families to bond in this way. However, modern board games were much harder, with so many rules and characters to choose from. Although I did have great fun with my two sons at times, I was still a bit of doubt about how to play."
+                        },
+                        {
+                            person: "Person B",
+                            text: "I preferred to play outdoors with my friends when I was small. I was lucky. The weather where we lived was usually nice, so we often ran around and chased each other in the field. Sometimes, we lay on the grass and made funny faces. All of these memories were just wonderful, and they made me realize how much I enjoy being around people. Even today, I'm grateful to say many of them are still my friends."
+                        },
+                        {
+                            person: "Person C",
+                            text: "I wasn't able to move much as a child and even now. I mostly stayed at home since I don't have many friends. I was drawn to books and preferred reading in my free time. There was much in stories that I loved to read. Now, I wish I had gone out more as I used to, but I don't go out very often either. Instead, I spend time on my computer, where I can play games. I prefer interactive ones because they let me socialize with people online."
+                        },
+                        {
+                            person: "Person D",
+                            text: "I have always enjoyed arts and crafts. When I was young, as it often was, I was looking out of my window and hoped it would stop. There wasn't much I could do inside the house. My parents often gave me books, but I never liked sitting stills and reading. Until one day my mother brought me a box full of art supplies - that's when I saw them. I could spend hours just staring at a blank canvas, wondering what to draw next. Now I wish I could find more outdoor activities there was another thing I loved—painting."
+                        }
+                    ],
+                    questions: [
+                        { question: "- Who enjoyed playing games with their children?", answer: "Person A" },
+                        { question: "- Who thought childhood games were much simpler?", answer: "Person A" },
+                        { question: "- Who enjoyed playing with their friends as a child?", answer: "Person B" },
+                        { question: "- Who enjoyed reading books as a child?", answer: "Person C" },
+                        { question: "- Who wishes he/ she could play outdoors?", answer: "Person D" },
+                        { question: "- Who enjoyed doing arts as a child?", answer: "Person D" }
+                    ],
+                    tips: "Person A - chơi board game, trò hiện đại khó | Person B - chơi ngoài trời, bạn bè tới giờ | Person C - ít bạn, thích đọc sách, giờ chơi game | Person D - thích vẽ, ít hoạt động ngoài trời"
+                },
+                {
+                    id: 14,
+                    title: "Extreme sports",
+                    conversations: [
+                        {
+                            person: "Person A",
+                            text: "For me, the most important thing about extreme sports is preparation. Many people think it's just about excitement and bravery, but it starts with proper training. Without good training, you can easily cause accidents for other people. I once joined a rock-climbing course, and I spent weeks learning how to tie the essential knots for safety. In my opinion, the real climb was much more enjoyable because I felt confident. I believe training is not only useful but also makes the whole experience less stressful and more rewarding."
+                        },
+                        {
+                            person: "Person B",
+                            text: "I have always preferred traditional sports such as swimming and running because they keep me healthy without being too dangerous. Still, I wanted to see what extreme sports felt like, so last year I tried bungee jumping while on holiday. At first, I was extremely nervous, but when I finally jumped, the feeling was incredible. It gave me a thrill that swimming never could. Even so, I still practice swimming every week because it's safer and more practical, but I admit that extreme sports can be fun if you try them at least once."
+                        },
+                        {
+                            person: "Person C",
+                            text: "Honestly, I don't understand why people do extreme sports. They seem very risky and unnecessary to me. I have played sports most of my life, and I don't see any reason to risk injury or even worse. Some of my friends tried snowboarding and paragliding, but I always said no. It's not that I don't like sports—I enjoy cycling and tennis—but I don't see the point of doing something so risky just for a few seconds of excitement. In my opinion, extreme sports are not important for a happy life, and I avoid them whenever possible."
+                        },
+                        {
+                            person: "Person D",
+                            text: "What I really enjoy about extreme sports is that they often take place in nature. Last summer, I went kayaking on a wild river, and the scenery was breathtaking. I also tried mountain biking in the forest, and I loved the feeling of being outdoors, away from the busy city. For me, it's not just about speed or danger—it's about being surrounded by mountains, trees, and water. I sometimes wish I had more free time and money so that I could join these activities more often. Extreme sports give me energy and help me feel connected to the natural world."
+                        }
+                    ],
+                    questions: [
+                        { question: "1. Who thinks preparation is necessary before doing extreme sports?", answer: "Person A" },
+                        { question: "2. Who usually does ordinary sports?", answer: "Person B" },
+                        { question: "3. Who once tried an extreme sport and enjoyed it?", answer: "Person B" },
+                        { question: "4. Who enjoys being outdoors when doing extreme sports?", answer: "Person D" },
+                        { question: "5. Who wishes to do more extreme sports in the future?", answer: "Person D" },
+                        { question: "6. Who believes extreme sports are not important?", answer: "Person C" },
+                        { question: "7. Who always avoids extreme sports?", answer: "Person C" }
+                    ],
+                    tips: "Person A - chuẩn bị quan trọng, leo núi | Person B - bơi chạy bình thường, nhảy bungee thích | Person C - không hiểu tại sao, quá rủi ro | Person D - thích thiên nhiên, kayaking, xe đạp"
+                },
+                {
+                    id: 15,
+                    title: "Career (Mới)",
+                    conversations: [
+                        {
+                            person: "Person A",
+                            text: "When I finished school, some people told me that I should get a job immediately. However, I wanted to gain some hands-on experience first. That's why I applied for a volunteer programme which lasted for three months. Even though I didn't receive any payment, it was quite beneficial. I was able to work in different fields. Looking back, I don't regret my choice at all because of all the knowledge I gained."
+                        },
+                        {
+                            person: "Person B",
+                            text: "I went straight to university after I graduated from high school. I have always wanted to become a teacher, so it was pointless to try any other professions. Three months ago, I went on an internship at a local school. It was definitely a mind-changing experience, because the workload was a bit more than I expected. Still, I would say it was very valuable. - did not want to change to other careers - enjoyed working when training"
+                        },
+                        {
+                            person: "Person C",
+                            text: "As a child, I lived near a plumber and worked with her. She gave me simple tasks like checking for any pipe leaks or securing the nails with a screw. It was natural for me later on to go to university to become an electrician, as I wanted to study something practical. After that, I know they provide compact electrical courses online. I wish I had enrolled in them instead. - enjoyed doing things with their hands - thinks their training was too long"
+                        },
+                        {
+                            person: "Person D",
+                            text: "After school, I wanted some time to figure out what I wanted to do. Therefore, I searched for temporary positions. However, it wasn't easy to reach a deal because companies didn't want someone with no prior experience. In the end, a game company reached out to me and I agreed to work with them. It was a hybrid position, so sometimes I worked late in the evenings, but it didn't cause any problems for me. - enjoyed working in a flexible work environment - thinks it was hard to get the first job"
+                        }
+                    ],
+                    questions: [
+                        { question: "- Who enjoyed working when training?", answer: "Person B" },
+                        { question: "- did not want to change to other careers", answer: "Person B" },
+                        { question: "- enjoyed doing things with their hands", answer: "Person C" },
+                        { question: "- thinks their training was too long", answer: "Person C" },
+                        { question: "- enjoyed working in a flexible work environment", answer: "Person D" },
+                        { question: "- thinks it was hard to get the first job", answer: "Person D" }
+                    ],
+                    tips: "Person A - tình nguyện không lương 3 tháng, nhiều lĩnh vực | Person B - đại học làm giáo viên, thực tập nhiều việc | Person C - sống gần thợ sửa ống nước, học điện, muốn học online | Person D - tìm việc tạm, công ty game, hybrid"
+                }
+            ],
+            "Community & Social Activities": [
+                {
+                    id: 16,
+                    title: "volunteering to clean a local park",
+                    conversations: [
+                        {
+                            person: "Person A",
+                            text: "I just have too much work, so I don't have much free time for myself. This tight schedule makes it impossible for me to join the local park cleaning event. I work six days, and on weekends I go out as on weekends with my family. We usually visit the park to play games and take a walk. I am relieved to hear that the park will be cleaned by the children volunteering from the school nearby. I believe these experiences will benefit them in the future, helping them share skills needed for their future careers."
+                        },
+                        {
+                            person: "Person B",
+                            text: "I adore the gorgeous scenery and fresh air at the park. Therefore, I always bring my family to the park to relax. My husband and I are willing to do some volunteer work, so I will ask my husband to help but since he usually doesn't do much anyway. I will make specific plans for everyone in the neighborhood to follow so the park can be cleaned in no time."
+                        },
+                        {
+                            person: "Person C",
+                            text: "The park plays an important role in teaching children about responsibility through volunteering. Cleaning the local park not only helps keep the environment clean but also teaches kids the value of teamwork and dedication. We admire their efforts to protect nature, whether it's picking up trash or planting flowers. Volunteering is a great way for children to improve their skills and mindset while making a positive impact on our community."
+                        },
+                        {
+                            person: "Person D",
+                            text: "This is a reminder that not just the park, but other areas in our town also need regular cleaning. Keeping our neighborhoods clean is important for a healthy environment. The community should work together to organize cleaning events more often, as ignoring trash can harm wildlife and make the area unpleasant. By joining these efforts, residents can take pride in their surroundings and make sure everyone has a nice place to enjoy."
+                        }
+                    ],
+                    questions: [
+                        { question: "1. Who thinks the park is a beautiful place to relax?", answer: "Person B" },
+                        { question: "2. Who can't clean the park because of their busy work?", answer: "Person A" },
+                        { question: "3. Who will ask others to help?", answer: "Person B" },
+                        { question: "4. Who thinks cleaning should happen regularly?", answer: "Person D" },
+                        { question: "5. Who thinks volunteering is important for children?", answer: "Person C" },
+                        { question: "6. Who thinks other local areas need cleaning?", answer: "Person D" },
+                        { question: "7. Who thinks volunteering can help with future employment?", answer: "Person A" }
+                    ],
+                    tips: "Person A - bận, trẻ tình nguyện tốt cho tương lai | Person B - yêu công viên, rủ gia đình, lập kế hoạch | Person C - dạy trẻ trách nhiệm | Person D - khu khác cũng cần dọn, tổ chức thường xuyên"
+                },
+                {
+                    id: 17,
+                    title: "art",
+                    conversations: [
+                        {
+                            person: "Person A",
+                            text: "I know the names of some famous artists, and I recognize some paintings. However, I only go to exhibitions when my friends want to. If I'm being honest, while I do have some artistic techniques myself, I enjoy painting in my free time, but I prefer to create rather than just observe."
+                        },
+                        {
+                            person: "Person B",
+                            text: "I think that looking at art is a personal experience. I much prefer to see art on my own, where I can take my time to appreciate each piece without distractions. I think visitors to galleries should focus more on the art itself rather than chatting or using their phones. When I'm alone with a painting, I can truly connect with it and reflect on what the artist intended."
+                        },
+                        {
+                            person: "Person C",
+                            text: "I find art fascinating. I have developed a good knowledge of various art movements and techniques over the years. Each piece tells a story, and I love discovering the history behind them. The colors, forms, and emotions captured in art pieces captivate my imagination. I could spend hours discussing and analyzing art, and I always look forward to learning more."
+                        },
+                        {
+                            person: "Person D",
+                            text: "I have great memories associated with art, as I have been going to numerous art exhibitions throughout my whole life. I cherish the moments spent with friends and family, exploring galleries together. Seeing art with people close to me adds a special dimension to the experience; we share our thoughts and feelings about the pieces we encounter. These shared experiences have created lasting bonds and wonderful memories."
+                        }
+                    ],
+                    questions: [
+                        { question: "1. Who thinks seeing an exhibition is boring?", answer: "Person A" },
+                        { question: "2. Who prefers seeing exhibitions by themselves?", answer: "Person B" },
+                        { question: "3. Who has good knowledge about art?", answer: "Person C" },
+                        { question: "4. Who thinks that visitors to the galleries should focus more on the art?", answer: "Person B" },
+                        { question: "5. Who prefers going to art exhibitions with other people?", answer: "Person D" },
+                        { question: "6. Who has been going to art exhibitions all their life?", answer: "Person D" },
+                        { question: ". Who has some artistic skills?", answer: "Person A" }
+                    ],
+                    tips: "Person A - biết vài họa sĩ, thích vẽ hơn xem | Person B - thích xem một mình, tập trung | Person C - hiểu biết sâu nghệ thuật | Person D - đi triển lãm suốt đời, với bạn bè gia đình"
+                }
+            ]
+        };
+
+        let currentCategory = "Lifestyle & Daily Life";
+        let currentTopicIndex = 0;
+        let userAnswers = {};
+        let isChecked = false;
+        let highlightEnabled = false;
+        let translationEnabled = false;
+
+        function initApp() {
+            renderTopicSelector();
+            loadTopic(currentCategory, currentTopicIndex);
+        }
+
+        function renderTopicSelector() {
+            const selector = document.getElementById('topicSelector');
+            selector.innerHTML = '';
+            
+            Object.keys(topics).forEach(category => {
+                const categoryBtn = document.createElement('button');
+                categoryBtn.className = 'topic-btn';
+                categoryBtn.textContent = category;
+                categoryBtn.onclick = () => {
+                    currentCategory = category;
+                    currentTopicIndex = 0;
+                    loadTopic(category, 0);
+                    updateActiveButton();
+                };
+                selector.appendChild(categoryBtn);
+            });
+            updateActiveButton();
+        }
+
+        function updateActiveButton() {
+            const buttons = document.querySelectorAll('.topic-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent === currentCategory) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function loadTopic(category, index) {
+            const topic = topics[category][index];
+            userAnswers = {};
+            isChecked = false;
+            highlightEnabled = false;
+            translationEnabled = false;
+            
+            document.getElementById('checkBtn').style.display = 'inline-block';
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('resultMessage').innerHTML = '';
+            
+            renderConversation(topic);
+            renderQuestions(topic);
+            updateProgress();
+        }
+
+        function renderConversation(topic) {
+            const container = document.getElementById('conversationContent');
+            let html = `<div class="topic-title">📌 Topic: ${topic.title}</div>`;
+            
+            topic.conversations.forEach(conv => {
+                html += `
+                    <div class="person-speech">
+                        <div class="person-name">${conv.person}:</div>
+                        <div class="speech-text">${conv.text}</div>
+                    </div>
+                `;
+            });
+            
+            if (topic.tips) {
+                html += `
+                    <div class="tips-section">
+                        <div class="tips-title">💡 Mẹo ghi nhớ:</div>
+                        <div>${topic.tips}</div>
+                    </div>
+                `;
             }
-        ];
+            
+            container.innerHTML = html;
+        }
 
-        let currentQuizIndex = 0;
-        let learnedTopics = JSON.parse(localStorage.getItem('part4LearnedTopics') || '[]');
-        let isQuizMode = false;
-        let currentSelectedOption = null;
-
-        function renderTopics() {
-            const container = document.getElementById('normalMode');
-            container.innerHTML = topics.map(topic => {
-                const isLearned = learnedTopics.includes(topic.id);
-                return `
-                    <div class="topic-group" data-id="${topic.id}" style="${isLearned ? 'opacity: 0.6;' : ''}">
-                        <div class="topic-group-header">
-                            <h2 class="topic-group-title">${topic.id}. ${topic.title} ${isLearned ? '✓' : ''}</h2>
-                            <span class="category-badge">${topic.category}</span>
-                        </div>
-                        
-                        <div class="conversation">
-                            <h3 style="color: #667eea; margin-bottom: 15px;">💬 Hội thoại:</h3>
-                            ${topic.conversations.map(conv => `
-                                <div class="person-speech">
-                                    <div class="person-name">${conv.person}</div>
-                                    <div class="speech-text">${highlightKeywords(conv.text, conv.keywords)}</div>
-                                    <div class="keyword-tags">
-                                        ${conv.keywords.map(kw => `<span class="keyword-tag">${kw}</span>`).join('')}
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                        
-                        <div class="questions-section">
-                            <h3>❓ Câu hỏi và Đáp án:</h3>
-                            ${topic.questions.map((q, i) => `
-                                <div class="question-item">
-                                    <span class="question-text">${i + 1}. ${q.q}</span>
-                                    <span class="answer-badge">${q.a}</span>
+        function renderQuestions(topic) {
+            const container = document.getElementById('questionsContent');
+            let html = '';
+            
+            topic.questions.forEach((q, index) => {
+                const persons = ['Person A', 'Person B', 'Person C', 'Person D'];
+                html += `
+                    <div class="question-item">
+                        <div class="question-text">${q.question}</div>
+                        <div class="options">
+                            ${persons.map(person => `
+                                <div class="option" onclick="selectAnswer(${index}, '${person}')" data-question="${index}" data-person="${person}">
+                                    ${person}
                                 </div>
                             `).join('')}
                         </div>
                     </div>
                 `;
-            }).join('');
-            
-            updateStats();
-        }
-
-        function highlightKeywords(text, keywords) {
-            let result = text;
-            keywords.forEach(keyword => {
-                const regex = new RegExp(`(${keyword})`, 'gi');
-                result = result.replace(regex, '<strong>$1</strong>');
             });
-            return result;
-        }
-
-        function toggleMode() {
-            isQuizMode = !isQuizMode;
-            document.getElementById('normalMode').style.display = isQuizMode ? 'none' : 'block';
-            document.getElementById('quizMode').classList.toggle('active', isQuizMode);
-            document.getElementById('modeText').textContent = isQuizMode ? '📚 Chế độ Học' : '🎯 Chế độ Quiz';
             
-            if (isQuizMode) {
-                showRandomQuiz();
-            }
+            container.innerHTML = html;
         }
 
-        function showRandomQuiz() {
-            const unlearned = topics.filter(t => !learnedTopics.includes(t.id));
-            if (unlearned.length === 0) {
-                alert('Chúc mừng! Bạn đã học hết tất cả các topics!');
-                if (isQuizMode) toggleMode();
+        function selectAnswer(questionIndex, person) {
+            if (isChecked) return;
+            
+            userAnswers[questionIndex] = person;
+            
+            document.querySelectorAll(`[data-question="${questionIndex}"]`).forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            document.querySelector(`[data-question="${questionIndex}"][data-person="${person}"]`).classList.add('selected');
+        }
+
+        function checkAnswers() {
+            const topic = topics[currentCategory][currentTopicIndex];
+            const totalQuestions = topic.questions.length;
+            
+            if (Object.keys(userAnswers).length < totalQuestions) {
+                alert('Vui lòng trả lời tất cả các câu hỏi!');
                 return;
             }
             
-            const topic = unlearned[Math.floor(Math.random() * unlearned.length)];
-            const question = topic.questions[Math.floor(Math.random() * topic.questions.length)];
+            let correct = 0;
             
-            // Get all unique persons
-            const persons = [...new Set(topic.questions.map(q => q.a))];
-            
-            document.getElementById('quizTopicTitle').textContent = topic.title;
-            document.getElementById('quizContent').innerHTML = `
-                <div class="quiz-question">
-                    <h3 style="color: #667eea; margin-bottom: 15px;">❓ ${question.q}</h3>
-                    <div class="quiz-options">
-                        ${persons.map(person => `
-                            <div class="quiz-option" onclick="selectOption(this, '${person}', '${question.a}')">
-                                ${person}
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('quizResult').classList.remove('show', 'correct', 'incorrect');
-            currentSelectedOption = null;
-            
-            if (!isQuizMode) {
-                isQuizMode = true;
-                document.getElementById('normalMode').style.display = 'none';
-                document.getElementById('quizMode').classList.add('active');
-                document.getElementById('modeText').textContent = '📚 Chế độ Học';
-            }
-        }
-
-        function selectOption(element, selected, correct) {
-            // Remove previous selection
-            document.querySelectorAll('.quiz-option').forEach(opt => {
-                opt.classList.remove('selected', 'correct', 'incorrect');
+            topic.questions.forEach((q, index) => {
+                const correctAnswer = q.answer;
+                const userAnswer = userAnswers[index];
+                const options = document.querySelectorAll(`[data-question="${index}"]`);
+                
+                options.forEach(opt => {
+                    const person = opt.getAttribute('data-person');
+                    if (person === correctAnswer) {
+                        opt.classList.add('correct');
+                    }
+                    if (person === userAnswer && userAnswer !== correctAnswer) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+                
+                if (userAnswer === correctAnswer) {
+                    correct++;
+                }
             });
             
-            element.classList.add('selected');
-            currentSelectedOption = { selected, correct };
+            isChecked = true;
             
-            // Check answer immediately
-            setTimeout(() => {
-                const isCorrect = selected === correct;
-                const result = document.getElementById('quizResult');
+            const resultDiv = document.getElementById('resultMessage');
+            const percentage = ((correct / totalQuestions) * 100).toFixed(0);
+            
+            if (percentage >= 80) {
+                resultDiv.innerHTML = `<div class="result-message success">🎉 Xuất sắc! Bạn đúng ${correct}/${totalQuestions} câu (${percentage}%)</div>`;
+            } else {
+                resultDiv.innerHTML = `<div class="result-message error">📚 Cần cố gắng thêm! Bạn đúng ${correct}/${totalQuestions} câu (${percentage}%)</div>`;
+            }
+            
+            document.getElementById('checkBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'inline-block';
+        }
+
+        function nextQuestion() {
+            const categoryTopics = topics[currentCategory];
+            
+            if (currentTopicIndex < categoryTopics.length - 1) {
+                currentTopicIndex++;
+            } else {
+                const categories = Object.keys(topics);
+                const currentCategoryIndex = categories.indexOf(currentCategory);
                 
-                if (isCorrect) {
-                    element.classList.remove('selected');
-                    element.classList.add('correct');
-                    result.classList.add('show', 'correct');
-                    result.innerHTML = '🎉 <strong>Chính xác!</strong> Đáp án đúng rồi!';
+                if (currentCategoryIndex < categories.length - 1) {
+                    currentCategory = categories[currentCategoryIndex + 1];
+                    currentTopicIndex = 0;
                 } else {
-                    element.classList.remove('selected');
-                    element.classList.add('incorrect');
-                    // Highlight correct answer
-                    document.querySelectorAll('.quiz-option').forEach(opt => {
-                        if (opt.textContent.trim() === correct) {
-                            opt.classList.add('correct');
+                    alert('🎊 Chúc mừng! Bạn đã hoàn thành tất cả các chủ đề!');
+                    currentCategory = categories[0];
+                    currentTopicIndex = 0;
+                }
+            }
+            
+            loadTopic(currentCategory, currentTopicIndex);
+            updateActiveButton();
+        }
+
+        function toggleHighlight() {
+            highlightEnabled = !highlightEnabled;
+            
+            const topic = topics[currentCategory][currentTopicIndex];
+            const container = document.getElementById('conversationContent');
+            
+            if (highlightEnabled) {
+                let html = `<div class="topic-title">📌 Topic: ${topic.title}</div>`;
+                
+                topic.conversations.forEach(conv => {
+                    let highlightedText = conv.text;
+                    
+                    // Highlight key phrases based on answers
+                    topic.questions.forEach(q => {
+                        if (conv.person.includes(q.answer) || q.answer.includes(conv.person.split(' ')[1])) {
+                            const keywords = extractKeywords(conv.text);
+                            keywords.forEach(keyword => {
+                                if (keyword.length > 3) {
+                                    highlightedText = highlightedText.replace(
+                                        new RegExp(`(${keyword})`, 'gi'),
+                                        '<span class="highlight">$1</span>'
+                                    );
+                                }
+                            });
                         }
                     });
-                    result.classList.add('show', 'incorrect');
-                    result.innerHTML = `❌ <strong>Sai rồi!</strong> Đáp án đúng là: <strong>${correct}</strong>`;
+                    
+                    html += `
+                        <div class="person-speech">
+                            <div class="person-name">${conv.person}:</div>
+                            <div class="speech-text">${highlightedText}</div>
+                        </div>
+                    `;
+                });
+                
+                if (topic.tips) {
+                    html += `
+                        <div class="tips-section">
+                            <div class="tips-title">💡 Mẹo ghi nhớ:</div>
+                            <div>${topic.tips}</div>
+                        </div>
+                    `;
                 }
-            }, 300);
-        }
-
-        function nextQuiz() {
-            showRandomQuiz();
-        }
-
-        function markLearned() {
-            const visibleTopic = document.querySelector('.topic-group:not([style*="opacity"])');
-            if (visibleTopic) {
-                const topicId = parseInt(visibleTopic.dataset.id);
-                if (!learnedTopics.includes(topicId)) {
-                    learnedTopics.push(topicId);
-                    localStorage.setItem('part4LearnedTopics', JSON.stringify(learnedTopics));
-                    renderTopics();
-                }
-            } else if (isQuizMode) {
-                // In quiz mode, mark current topic as learned
-                alert('Vui lòng chuyển về chế độ học để đánh dấu topic!');
+                
+                container.innerHTML = html;
+            } else {
+                renderConversation(topic);
             }
         }
 
-        function resetProgress() {
-            if (confirm('Bạn có chắc muốn xóa tiến độ học?')) {
-                learnedTopics = [];
-                localStorage.removeItem('part4LearnedTopics');
-                renderTopics();
-            }
+        function extractKeywords(text) {
+            const words = text.match(/\b[A-Z][a-z]+(?:\s+[a-z]+)*\b|\b[a-z]+ing\b/g) || [];
+            return [...new Set(words)];
         }
 
-        function updateStats() {
-            const learned = learnedTopics.length;
-            const total = topics.length;
-            document.getElementById('learnedCount').textContent = learned;
-            document.getElementById('remainingCount').textContent = total - learned;
+        function toggleTranslation() {
+            translationEnabled = !translationEnabled;
             
-            const progressFill = document.getElementById('progressFill');
-            const percentage = (learned / total) * 100;
-            progressFill.style.width = percentage + '%';
-            progressFill.textContent = `${learned}/${total}`;
+            const topic = topics[currentCategory][currentTopicIndex];
+            const container = document.getElementById('conversationContent');
+            
+            if (translationEnabled) {
+                let html = `<div class="topic-title">📌 Topic: ${topic.title}</div>`;
+                
+                topic.conversations.forEach(conv => {
+                    const translation = getVietnameseTranslation(conv.person, topic.title);
+                    html += `
+                        <div class="person-speech">
+                            <div class="person-name">${conv.person}:</div>
+                            <div class="speech-text">${conv.text}</div>
+                            <div class="translation show">
+                                <div class="translation-text">🇻🇳 ${translation}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                if (topic.tips) {
+                    html += `
+                        <div class="tips-section">
+                            <div class="tips-title">💡 Mẹo ghi nhớ:</div>
+                            <div>${topic.tips}</div>
+                        </div>
+                    `;
+                }
+                
+                container.innerHTML = html;
+            } else {
+                renderConversation(topic);
+            }
         }
 
-        // Initialize
-        renderTopics();
+        function getVietnameseTranslation(person, topicTitle) {
+            // Simplified translation mapping - in real app, this would be more comprehensive
+            const translations = {
+                "eating and cooking": {
+                    "Cecilia": "Khi còn nhỏ, tôi luôn thích ăn cùng bạn bè. Chia sẻ bữa ăn giúp tôi gắn bó với mọi người.",
+                    "Benigo": "Trước đây tôi hay ăn ngoài, nhưng giờ thích ăn một mình để tiết kiệm tiền.",
+                    "Gloria": "Tôi thích thử nhiều món ăn khác nhau và đang học nấu ăn để mở rộng kiến thức ẩm thực.",
+                    "Alon": "Đồ ăn nhà ngon hơn đồ ăn nhanh, nhưng tôi chỉ ăn vài loại món quen thuộc."
+                }
+                // Add more translations for other topics...
+            };
+            
+            return translations[topicTitle]?.[person] || "Bản dịch đang được cập nhật...";
+        }
+
+        function updateProgress() {
+            const allTopicsCount = Object.values(topics).reduce((sum, cat) => sum + cat.length, 0);
+            const completedCount = Object.keys(topics).reduce((sum, cat, catIndex) => {
+                const categoryIndex = Object.keys(topics).indexOf(currentCategory);
+                if (catIndex < categoryIndex) {
+                    return sum + topics[cat].length;
+                } else if (catIndex === categoryIndex) {
+                    return sum + currentTopicIndex;
+                }
+                return sum;
+            }, 0);
+            
+            const progress = (completedCount / allTopicsCount) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // Initialize app when page loads
+        window.onload = initApp;
     </script>
 </body>
 </html>
