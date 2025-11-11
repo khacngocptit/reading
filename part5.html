@@ -963,7 +963,7 @@
             const back = document.getElementById('flashcardBack');
             
             let frontHTML = `
-                <div class="topic-title">${topic.name}</div>
+                <div class="topic-title">📚 ${topic.name}</div>
                 <div class="heading-list">
                     ${topic.headings.map((h, i) => `
                         <div class="heading-item">
@@ -977,7 +977,7 @@
             `;
             
             let backHTML = `
-                <div class="topic-title">${topic.name}</div>
+                <div class="topic-title">📚 ${topic.name}</div>
                 <div class="memory-tip">
                     <strong>💡 Mẹo ghi nhớ:</strong>
                     ${topic.tip}
@@ -1006,18 +1006,33 @@
             const shuffledHeadings = [...topic.headings].sort(() => Math.random() - 0.5);
             
             const headingsList = document.getElementById('headingsList');
-            headingsList.innerHTML = shuffledHeadings.map((h, i) => `
-                <div class="heading-option" onclick="selectHeading(${i}, '${h}')" data-heading="${i}">
+            headingsList.innerHTML = `
+                <div style="background: #fff3cd; padding: 10px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #ffc107;">
+                    <strong style="color: #856404;">📚 Topic: ${topic.name}</strong>
+                </div>
+            ` + shuffledHeadings.map((h, i) => `
+                <div class="heading-option" data-heading="${i}" data-heading-text="${h}">
                     ${h}
                 </div>
             `).join('');
             
+            // Add event listeners
+            document.querySelectorAll('.heading-option').forEach((opt, idx) => {
+                const originalIndex = shuffledHeadings.indexOf(opt.getAttribute('data-heading-text'));
+                opt.addEventListener('click', () => selectHeading(opt.getAttribute('data-heading'), opt.getAttribute('data-heading-text')));
+            });
+            
             const topicsList = document.getElementById('topicsList');
             topicsList.innerHTML = topic.headings.map((h, i) => `
-                <div class="topic-option" onclick="matchTopic(${i})" data-topic="${i}">
+                <div class="topic-option" data-topic="${i}">
                     <strong>Đoạn ${i + 1}</strong>
                 </div>
             `).join('');
+            
+            // Add event listeners for topics
+            document.querySelectorAll('.topic-option').forEach(opt => {
+                opt.addEventListener('click', () => matchTopic(parseInt(opt.getAttribute('data-topic'))));
+            });
             
             renderControlButtons('practice');
         }
@@ -1090,20 +1105,31 @@
             container.innerHTML = randomTopics.map((topic, index) => `
                 <div class="question-card">
                     <div class="question-header">
-                        <span class="question-number">Câu ${index + 1}: ${topic.name}</span>
+                        <span class="question-number">Câu ${index + 1}: <strong>${topic.name}</strong></span>
                     </div>
                     <div class="passage-text">
+                        <strong>📖 Topic: ${topic.name}</strong><br><br>
                         [Đây là đoạn văn mẫu về ${topic.name}. Trong bài thi thực tế, bạn sẽ đọc đoạn văn và chọn heading phù hợp nhất.]
                     </div>
                     <div class="options-grid">
                         ${topic.headings.map((h, hi) => `
-                            <div class="option-btn" onclick="selectTestAnswer(${index}, ${hi}, '${h}')" data-question="${index}" data-option="${hi}">
+                            <div class="option-btn" data-question="${index}" data-option="${hi}" data-heading-text="${h}">
                                 ${String.fromCharCode(65 + hi)}. ${h}
                             </div>
                         `).join('')}
                     </div>
                 </div>
             `).join('');
+            
+            // Add event listeners
+            document.querySelectorAll('.option-btn').forEach(opt => {
+                opt.addEventListener('click', () => {
+                    const q = parseInt(opt.getAttribute('data-question'));
+                    const o = parseInt(opt.getAttribute('data-option'));
+                    const h = opt.getAttribute('data-heading-text');
+                    selectTestAnswer(q, o, h);
+                });
+            });
             
             renderControlButtons('test');
         }
