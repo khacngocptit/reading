@@ -1,71 +1,399 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trang chủ</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f7f7f7;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    h1 {
-      margin-bottom: 30px;
-      color: #333;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      width: 80%;
-      max-width: 1000px;
-    }
-
-    .box {
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 180px;
-      font-size: 20px;
-      font-weight: bold;
-      color: #333;
-      text-decoration: none;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-    }
-
-    footer {
-      margin-top: 40px;
-      color: #666;
-      font-size: 14px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện tập Reading: Multiple Matching</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        .person-card { transition: all 0.2s; border-left: 4px solid transparent; }
+        .person-A { border-left-color: #3b82f6; background-color: #eff6ff; }
+        .person-B { border-left-color: #ef4444; background-color: #fef2f2; }
+        .person-C { border-left-color: #10b981; background-color: #ecfdf5; }
+        .person-D { border-left-color: #f59e0b; background-color: #fffbeb; }
+        
+        /* Option Buttons */
+        .option-btn { transition: all 0.2s; border: 2px solid #e5e7eb; }
+        .option-btn:hover:not(:disabled) { border-color: #6366f1; background-color: #eef2ff; }
+        .option-btn.selected { border-color: #6366f1; background-color: #eef2ff; ring: 2px solid #6366f1; }
+        
+        .option-btn.correct { background-color: #dcfce7; border-color: #22c55e; color: #15803d; }
+        .option-btn.wrong { background-color: #fee2e2; border-color: #ef4444; color: #b91c1c; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
 </head>
-<body>
-  <h1>Chọn trang bạn muốn xem</h1>
+<body class="bg-gray-50 h-screen flex flex-col overflow-hidden">
 
-  <div class="grid">
-    <a href="p1.html" class="box">🌐 Trang Part 1</a>
-    <a href="p23.html" class="box">📄 Trang Part 2 + 3</a>
-    <a href="p4.html" class="box">🧭 Trang Part 4</a>
-    <a href="part5.html" class="box">⚙️ Trang Part 5</a>
-  </div>
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center shadow-sm shrink-0 z-10">
+        <div class="flex items-center gap-3">
+            <div class="bg-indigo-600 text-white p-2 rounded-lg">
+                <i class="fa-solid fa-book-open"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-gray-800 text-lg">Luyện Tập Reading</h1>
+                <p class="text-xs text-gray-500">Dạng bài: Matching People to Opinions</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="text-sm font-medium text-gray-600">
+                Chủ đề: <span id="current-topic-display" class="text-indigo-600 font-bold">1/6</span>
+            </div>
+            <!-- Topic Navigation -->
+            <div class="flex gap-1">
+                <button onclick="changeTopic(-1)" class="p-2 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition" title="Chủ đề trước">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button onclick="changeTopic(1)" class="p-2 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition" title="Chủ đề sau">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </header>
 
-  <footer>© 2025 - Trang tổng hợp 4 website</footer>
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col md:flex-row overflow-hidden relative">
+        
+        <!-- Left Panel: Reading Text -->
+        <div class="w-full md:w-1/2 overflow-y-auto p-6 border-r border-gray-200 bg-white" id="reading-panel">
+            <h2 id="topic-title" class="text-xl font-bold text-gray-800 mb-4 sticky top-0 bg-white py-2 border-b">Topic Title</h2>
+            <div class="space-y-6 pb-10">
+                <div class="person-card person-A p-4 rounded-lg shadow-sm">
+                    <h3 class="font-bold text-blue-800 mb-2 flex items-center gap-2"><span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">A</span> Person A</h3>
+                    <p id="text-A" class="text-gray-700 text-sm leading-relaxed text-justify"></p>
+                </div>
+                <div class="person-card person-B p-4 rounded-lg shadow-sm">
+                    <h3 class="font-bold text-red-800 mb-2 flex items-center gap-2"><span class="bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">B</span> Person B</h3>
+                    <p id="text-B" class="text-gray-700 text-sm leading-relaxed text-justify"></p>
+                </div>
+                <div class="person-card person-C p-4 rounded-lg shadow-sm">
+                    <h3 class="font-bold text-green-800 mb-2 flex items-center gap-2"><span class="bg-green-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">C</span> Person C</h3>
+                    <p id="text-C" class="text-gray-700 text-sm leading-relaxed text-justify"></p>
+                </div>
+                <div class="person-card person-D p-4 rounded-lg shadow-sm">
+                    <h3 class="font-bold text-amber-800 mb-2 flex items-center gap-2"><span class="bg-amber-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">D</span> Person D</h3>
+                    <p id="text-D" class="text-gray-700 text-sm leading-relaxed text-justify"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Single Question Interaction -->
+        <div class="w-full md:w-1/2 bg-gray-50 flex flex-col h-full relative">
+            
+            <!-- Progress Bar -->
+            <div class="h-1 w-full bg-gray-200">
+                <div id="progress-bar" class="h-1 bg-indigo-600 transition-all duration-300" style="width: 0%"></div>
+            </div>
+
+            <div class="flex-1 flex flex-col items-center justify-center p-8 overflow-y-auto">
+                
+                <!-- Question Card -->
+                <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-xs font-bold tracking-wider text-indigo-500 uppercase bg-indigo-50 px-3 py-1 rounded-full">Câu hỏi <span id="q-current">1</span> / <span id="q-total">7</span></span>
+                    </div>
+
+                    <h3 id="question-text" class="text-xl font-bold text-gray-800 mb-8 leading-relaxed">
+                        Loading question...
+                    </h3>
+
+                    <!-- Options Grid -->
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <button onclick="selectAnswer('A')" id="btn-A" class="option-btn p-4 rounded-xl flex items-center gap-3 font-semibold text-gray-700">
+                            <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm font-bold">A</span>
+                            Person A
+                        </button>
+                        <button onclick="selectAnswer('B')" id="btn-B" class="option-btn p-4 rounded-xl flex items-center gap-3 font-semibold text-gray-700">
+                            <span class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-sm font-bold">B</span>
+                            Person B
+                        </button>
+                        <button onclick="selectAnswer('C')" id="btn-C" class="option-btn p-4 rounded-xl flex items-center gap-3 font-semibold text-gray-700">
+                            <span class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-sm font-bold">C</span>
+                            Person C
+                        </button>
+                        <button onclick="selectAnswer('D')" id="btn-D" class="option-btn p-4 rounded-xl flex items-center gap-3 font-semibold text-gray-700">
+                            <span class="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-sm font-bold">D</span>
+                            Person D
+                        </button>
+                    </div>
+
+                    <!-- Feedback Area -->
+                    <div id="feedback-area" class="hidden animate-fade-in mb-6 p-4 rounded-xl bg-gray-50 border border-gray-100">
+                        <p id="feedback-message" class="font-bold text-sm mb-1"></p>
+                        <p id="feedback-reason" class="text-xs text-gray-600 italic"></p>
+                    </div>
+
+                    <!-- Next Button -->
+                    <button id="next-btn" onclick="nextQuestion()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-md transition-all transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed hidden">
+                        Câu tiếp theo <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                    
+                    <button id="finish-btn" onclick="finishTopic()" class="w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold shadow-md transition-all transform active:scale-95 hidden">
+                        Hoàn thành chủ đề <i class="fa-solid fa-check ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- DATA SOURCE (Digitized from screenshots) ---
+        const topics = [
+            {
+                id: 1,
+                title: "Topic: Career",
+                texts: {
+                    A: "When I finished school, some people told me that I should get a job immediately. However, I wanted to gain some hands-on experience first. That's why I applied for several volunteering positions. Even though I didn't receive any financial benefits, I was able to work in different fields. Looking back, I don't regret my choice at all because of all the knowledge I gained.",
+                    B: "I went straight to university after I graduated from high school. I have always wanted to become a teacher, so it was pointless to try any other professions. Three months ago, I went on an internship at a local school. It was definitely a mind-changing experience, though the workload was a bit more than I expected. Still, I would say it was very valuable.",
+                    C: "As a child, I lived near a plumber and worked with her. She gave me simple tasks like checking for any pipe leaks or securing the nails with a screw. It was natural for me later on to go to university to become an electrician, as I wanted to study something practical. Now that I know they provide compact electrical courses online, I wish I had enrolled in them instead.",
+                    D: "After school, I wanted some time to figure out what I wanted to do. Therefore, I searched for temporary positions. However, it wasn't easy to reach a deal because companies didn't want someone with no prior experience. In the end, a game company reached out to me and I agreed to work with them. It was a hybrid position, so sometimes I worked late in the evenings, but it didn't cause any problems for me."
+                },
+                questions: [
+                    { id: 1, text: "Who enjoyed doing things with their hands?", answer: "C", reason: "Worked with a plumber, checked leaks, secured nails." },
+                    { id: 2, text: "Who thinks it was hard to get the first job?", answer: "D", reason: "It wasn't easy to reach a deal because companies didn't want someone with no prior experience." },
+                    { id: 3, text: "Who benefited from working for free?", answer: "A", reason: "Applied for volunteering positions... didn't receive financial benefits... knowledge gained." },
+                    { id: 4, text: "Who enjoyed working when training?", answer: "B", reason: "Internship at a local school... mind-changing experience, valuable." },
+                    { id: 5, text: "Who enjoyed working in a flexible work environment?", answer: "D", reason: "It was a hybrid position... didn't cause any problems." },
+                    { id: 6, text: "Who did not want to change to other careers?", answer: "B", reason: "Always wanted to become a teacher, so it was pointless to try any other professions." },
+                    { id: 7, text: "Who thinks their training was too long?", answer: "C", reason: "Wished they had enrolled in compact electrical courses online instead of university." }
+                ]
+            },
+            {
+                id: 2,
+                title: "Topic: Music Festival",
+                texts: {
+                    A: "This is my first time going to a concert. I didn't feel very well during the first two days because it was raining and the music was just of average. It would have been much nicer if there had been some sunshine. Fortunately, the final day was wonderful, and I was able to meet my favorite singers and create unforgettable memories.",
+                    B: "I attend music festivals every year. It has become a tradition for me, as I truly love the lively atmosphere filled with people and music. This festival, however, felt rather unusual. The weather was not ideal, but that didn't really bother me, since I have been to rain-free festivals and still had fun. The location was only somewhat convenient, and the music was quite average. Honestly, I don't think I will return in the future.",
+                    C: "I don't like one particular type of music being played at festivals. I prefer an album with a mix of genres to dance to, and this show really met my expectations. The melodies performed were simply astonishing. It did rain a little, but I didn't mind at all; in fact, I felt it added to the lively atmosphere. However, I noticed that the ticket price was rather high, and not many students could afford it. Personally, I had to save money for months before attending.",
+                    D: "My band and I were invited to play at this festival. We gave our usual performance and were able to create a memorable show. Some of our old members were there, along with artists we had collaborated with in the past. It was wonderful catching up with them after the event. Unfortunately, the venue was far from the main road, and transporting our equipment was quite difficult."
+                },
+                questions: [
+                    { id: 1, text: "Who is disappointed with the weather?", answer: "A", reason: "Didn't feel well... raining... would have been nicer if sunshine." },
+                    { id: 2, text: "Who didn't like the festival?", answer: "B", reason: "Felt unusual... music average... don't think I will return." },
+                    { id: 3, text: "Who enjoyed all the music at the music event?", answer: "C", reason: "Show met expectations... melodies were astonishing." },
+                    { id: 4, text: "Who likes meeting old friends?", answer: "D", reason: "Some old members were there... wonderful catching up." },
+                    { id: 5, text: "Who enjoyed the final day of the music event?", answer: "A", reason: "The final day was wonderful... meet favorite singers." },
+                    { id: 6, text: "Who thought traffic was difficult?", answer: "D", reason: "Venue far from main road, transporting equipment was difficult." },
+                    { id: 7, text: "Who thought the event was expensive?", answer: "C", reason: "Ticket price was rather high... had to save money for months." }
+                ]
+            },
+            {
+                id: 3,
+                title: "Topic: Childhood",
+                texts: {
+                    A: "As a child, I spent hours playing board games with my friends. The rules were pretty straightforward and easy to understand. As I grew older, I thought it would be a great chance for families to bond in this way. However, modern board games were much harder, with so many rules and characters to choose from. Although I did have a great time with my two sons and we often laughed while playing, it was still a bit of an effort to learn how to play.",
+                    B: "I preferred to play outdoors with my friends when I was small. I was lucky. The weather where we lived was usually nice, so we often ran around and chased each other in the field. Sometimes, we lay on the grass and made funny faces. All of these memories were just wonderful, and they made me realize how much I enjoy being around people. Even today, I find it hard to stay home alone.",
+                    C: "I wasn't able to move much as a child, and even now. I mostly stayed at home since I don't have many friends. I was drawn to books and preferred reading in my free time. There was a library I often visited, and I would get completely lost in the stories. Now, I don't read as much as I used to, but I don't go out very often either. Instead, I spend time on my computer, where I can play games. I prefer interactive ones because they let me socialize with people online.",
+                    D: "I enjoyed playing outdoors. When the day was gloomy, as it often was, I looked out of my window and hoped it would stop. There wasn't much I could do inside the house. My parents often gave me books, but I never liked sitting still and reading. Until one day, my mother brought me a box full of art supplies. That's when I realized there was another thing I loved—painting. I could spend hours just staring at a blank canvas, wondering what to draw next."
+                },
+                questions: [
+                    { id: 1, text: "Who enjoyed playing games with their children?", answer: "A", reason: "Had a great time with my two sons and we often laughed while playing." },
+                    { id: 2, text: "Who enjoyed playing with their friends as a child?", answer: "B", reason: "Preferred to play outdoors with my friends... ran around and chased each other." },
+                    { id: 3, text: "Who thought childhood games were much simpler?", answer: "A", reason: "Rules were pretty straightforward... modern board games were much harder." },
+                    { id: 4, text: "Who wished they could spend more time outdoors?", answer: "D", reason: "Looked out of my window and hoped [rain] would stop." },
+                    { id: 5, text: "Who enjoyed playing modern games?", answer: "C", reason: "Spend time on my computer, where I can play games... prefer interactive ones." },
+                    { id: 6, text: "Who enjoyed doing arts as a child?", answer: "D", reason: "Mother brought art supplies... loved painting." },
+                    { id: 7, text: "Who enjoyed reading books as a child?", answer: "C", reason: "Drawn to books... get completely lost in the stories." }
+                ]
+            },
+            {
+                id: 4,
+                title: "Topic: Work and Life Balance",
+                texts: {
+                    A: "When I was a child, I enjoyed playing board games with my parents after their busy workdays. Now, I get to share that experience with my own kids, and having a four-day workweek gives us more time together. Flexible schedules are a big help, but I always make sure to plan ahead so I can balance both work and family life. These are the moments that create lasting memories.",
+                    B: "As a kid, I would set up pretend offices with my friends, using toy phones and notebooks. I loved taking on the role of 'boss' and organizing our tasks. Those imaginative games taught me valuable lessons in organization and leadership, and I still laugh thinking about the 'serious' meetings we held.",
+                    C: "When I was younger, I devoured books about different professions, dreaming about what my future career might be. Those books inspired my ambition. Today, I rely on productivity apps to keep track of my tasks in my four-day workweek. While the apps make my work more efficient, the excitement of organizing and planning is still the same.",
+                    D: "As a child, I spent countless evenings playing tag with my friends in the neighborhood. On rainy days, though, I often found myself feeling bored indoors. Now, after work, I practice mindfulness to help me relax and recharge. It's especially helpful with a shorter workweek, as it keeps me focused and refreshed."
+                },
+                questions: [
+                    { id: 1, text: "Who now enjoys productivity apps?", answer: "C", reason: "Rely on productivity apps to keep track of my tasks." },
+                    { id: 2, text: "Who loved outdoor play as a child?", answer: "D", reason: "Spent countless evenings playing tag with my friends in the neighborhood." },
+                    { id: 3, text: "Who enjoys family time with board games?", answer: "A", reason: "Share experience [board games] with my own kids." },
+                    { id: 4, text: "Who loved organizing pretend offices as a child?", answer: "B", reason: "Set up pretend offices... loved taking on the role of 'boss'." },
+                    { id: 5, text: "Who finds modern schedules more flexible?", answer: "A", reason: "Having a four-day workweek gives us more time... Flexible schedules are a big help." },
+                    { id: 6, text: "Who loved reading about careers as a child?", answer: "C", reason: "Devoured books about different professions." },
+                    { id: 7, text: "Who now prefers mindfulness practices?", answer: "D", reason: "Practice mindfulness to help me relax and recharge." }
+                ]
+            },
+            {
+                id: 5,
+                title: "Topic: Extreme Sports (Set 1)",
+                texts: {
+                    A: "For me, the most important thing about extreme sports is preparation. Many people think it's just about excitement and bravery, but I don't agree. Without proper training, you can easily get injured or even cause accidents for other people. I once joined a rock-climbing course, and I spent weeks learning how to use the equipment safely. After that, the real climb was much more enjoyable because I felt confident. I believe training is not only useful but also makes the whole experience less stressful and more rewarding.",
+                    B: "I have always preferred traditional sports such as swimming and running because they keep me healthy without being too dangerous. Still, I wanted to know what an extreme sport would feel like, so last year I tried bungee jumping while on holiday. At first, I was extremely nervous, but when I finally jumped, the feeling was unforgettable. It gave me a thrill that swimming never could. Even so, I still practice swimming every week because it's safer and more practical, but I admit that extreme sports can be fun if you try them at least once.",
+                    C: "Honestly, I don't understand why people do extreme sports. They seem very risky and unnecessary to me. I have never tried one and I don't plan to. Some of my friends invited me to join them for snowboarding and paragliding, but I always said no. It's not that I don't like sports—I enjoy cycling and tennis—but I don't see the point of risking my health just to feel a few seconds of excitement. To me, extreme sports are not important for a happy life, and I avoid them whenever possible.",
+                    D: "What I really enjoy about extreme sports is that they often take place in nature. Last summer, I went kayaking on a wild river, and the scenery was breathtaking. I also tried mountain biking in the forest, and I loved the feeling of fresh air and freedom. It's not just about the sport itself, but about being surrounded by mountains, trees, and water. I sometimes wish I had more free time and money so that I could join these activities more often. Extreme sports give me energy and help me feel connected to the natural world."
+                },
+                questions: [
+                    { id: 1, text: "Who thinks preparation is necessary before doing extreme sports?", answer: "A", reason: "Without proper training, you can easily get injured." },
+                    { id: 2, text: "Who usually does ordinary sports?", answer: "B", reason: "Preferred traditional sports such as swimming and running." },
+                    { id: 3, text: "Who once tried an extreme sport and enjoyed it?", answer: "B", reason: "Tried bungee jumping... feeling was unforgettable." },
+                    { id: 4, text: "Who enjoys being outdoors when doing extreme sports?", answer: "D", reason: "Often take place in nature... scenery was breathtaking." },
+                    { id: 5, text: "Who wishes to do more extreme sports in the future?", answer: "D", reason: "Wish I had more free time and money so that I could join these activities more often." },
+                    { id: 6, text: "Who believes extreme sports are not important?", answer: "C", reason: "Extreme sports are not important for a happy life." },
+                    { id: 7, text: "Who always avoids extreme sports?", answer: "C", reason: "Avoid them whenever possible." }
+                ]
+            },
+            {
+                id: 6,
+                title: "Topic: Extreme Sports (Set 2)",
+                texts: {
+                    A: "Before diving into any extreme sport, I truly believe it's crucial to undergo proper training. While these activities can be thrilling, they also carry risks if you're not well-prepared. I've witnessed people injuring themselves simply because they didn't take the necessary precautions. That's why I always make sure to complete a training program and familiarize myself with the safety guidelines before trying something new. With the right preparation, extreme sports can be an amazing experience.",
+                    B: "I've always had a fondness for more traditional sports such as swimming, running, and tennis. They're enjoyable and easy to incorporate into a routine. However, a few months ago, I had the chance to go bungee jumping during a vacation, and it turned out to be an unforgettable experience. I didn't anticipate having so much fun! While I still prefer regular sports for daily exercise, I now feel much more open to trying extreme sports occasionally for the thrill.",
+                    C: "What I appreciate most about extreme sports is the unique way they allow me to connect with nature. Activities like rock climbing and mountain biking enable me to explore stunning landscapes while also pushing my physical and mental limits. It's an escape from the everyday routine, and it makes me feel truly alive. If I had more time and resources, I would love to engage in these sports more frequently, particularly in wild, remote locations.",
+                    D: "I understand that some people find extreme sports exhilarating, but they've never been significant to me. In fact, I try to avoid them whenever I can. I'm not fond of the idea of placing myself in risky situations just for the sake of excitement. There are many safer alternatives to staying active and enjoying life. I'd much rather take a peaceful walk or do some yoga than jump out of an airplane or scale a mountain. It's simply not my cup of tea."
+                },
+                questions: [
+                    { id: 1, text: "Who finds extreme sport unimportant?", answer: "D", reason: "They've never been significant to me... simply not my cup of tea." },
+                    { id: 2, text: "Who finds training before participating is important?", answer: "A", reason: "Believe it's crucial to undergo proper training." },
+                    { id: 3, text: "Who still likes extreme sports after playing once?", answer: "B", reason: "Bungee jumping... unforgettable... feel much more open to trying." },
+                    { id: 4, text: "Who wants to play more extreme sport?", answer: "C", reason: "If I had more time and resources, I would love to engage... more frequently." },
+                    { id: 5, text: "Who likes traditional sports like swimming?", answer: "B", reason: "Fondness for more traditional sports such as swimming." },
+                    { id: 6, text: "Who enjoys nature?", answer: "C", reason: "Unique way they allow me to connect with nature." },
+                    { id: 7, text: "Who always avoids playing extreme sport?", answer: "D", reason: "Try to avoid them whenever I can." }
+                ]
+            }
+        ];
+
+        // --- STATE MANAGEMENT ---
+        let currentTopicIndex = 0;
+        let currentQuestionIndex = 0;
+        let currentQuestions = [];
+        let hasAnsweredCurrent = false;
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTopic(0);
+        });
+
+        // --- FUNCTIONS ---
+        
+        function changeTopic(direction) {
+            const newIndex = currentTopicIndex + direction;
+            if (newIndex >= 0 && newIndex < topics.length) {
+                loadTopic(newIndex);
+            }
+        }
+
+        function loadTopic(index) {
+            currentTopicIndex = index;
+            currentQuestionIndex = 0;
+            hasAnsweredCurrent = false;
+            
+            const data = topics[index];
+
+            // Update Header
+            document.getElementById('current-topic-display').textContent = `${index + 1}/${topics.length}`;
+            document.getElementById('topic-title').textContent = data.title;
+            
+            // Render Text
+            document.getElementById('text-A').textContent = data.texts.A;
+            document.getElementById('text-B').textContent = data.texts.B;
+            document.getElementById('text-C').textContent = data.texts.C;
+            document.getElementById('text-D').textContent = data.texts.D;
+
+            // Prepare Questions (Randomize)
+            currentQuestions = [...data.questions].sort(() => Math.random() - 0.5);
+            
+            renderCurrentQuestion();
+        }
+
+        function renderCurrentQuestion() {
+            hasAnsweredCurrent = false;
+            const q = currentQuestions[currentQuestionIndex];
+            
+            // UI Updates
+            document.getElementById('q-current').textContent = currentQuestionIndex + 1;
+            document.getElementById('q-total').textContent = currentQuestions.length;
+            document.getElementById('question-text').textContent = q.text;
+            
+            // Progress Bar
+            const progress = ((currentQuestionIndex) / currentQuestions.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+
+            // Reset Buttons
+            ['A', 'B', 'C', 'D'].forEach(opt => {
+                const btn = document.getElementById(`btn-${opt}`);
+                btn.className = "option-btn p-4 rounded-xl flex items-center gap-3 font-semibold text-gray-700 w-full";
+                btn.disabled = false;
+            });
+
+            // Hide Feedback & Buttons
+            document.getElementById('feedback-area').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+            document.getElementById('finish-btn').classList.add('hidden');
+        }
+
+        function selectAnswer(selectedOpt) {
+            if (hasAnsweredCurrent) return;
+            hasAnsweredCurrent = true;
+
+            const q = currentQuestions[currentQuestionIndex];
+            const isCorrect = selectedOpt === q.answer;
+            
+            // Style Selected Button
+            const selectedBtn = document.getElementById(`btn-${selectedOpt}`);
+            
+            // Show Feedback
+            const feedbackArea = document.getElementById('feedback-area');
+            const feedbackMsg = document.getElementById('feedback-message');
+            const feedbackReason = document.getElementById('feedback-reason');
+            
+            feedbackArea.classList.remove('hidden');
+
+            if (isCorrect) {
+                selectedBtn.classList.add('correct');
+                feedbackArea.className = "animate-fade-in mb-6 p-4 rounded-xl bg-green-50 border border-green-200";
+                feedbackMsg.innerHTML = `<i class="fa-solid fa-check-circle text-green-600"></i> Chính xác!`;
+                feedbackMsg.className = "font-bold text-sm mb-1 text-green-800";
+                feedbackReason.textContent = q.reason;
+            } else {
+                selectedBtn.classList.add('wrong');
+                // Highlight correct answer
+                const correctBtn = document.getElementById(`btn-${q.answer}`);
+                correctBtn.classList.add('correct'); // Show which one was actually correct
+
+                feedbackArea.className = "animate-fade-in mb-6 p-4 rounded-xl bg-red-50 border border-red-200";
+                feedbackMsg.innerHTML = `<i class="fa-solid fa-xmark-circle text-red-600"></i> Sai rồi. Đáp án đúng là Người ${q.answer}`;
+                feedbackMsg.className = "font-bold text-sm mb-1 text-red-800";
+                feedbackReason.textContent = q.reason;
+            }
+
+            // Disable all buttons
+            ['A', 'B', 'C', 'D'].forEach(opt => {
+                document.getElementById(`btn-${opt}`).disabled = true;
+            });
+
+            // Show Navigation Button
+            if (currentQuestionIndex < currentQuestions.length - 1) {
+                document.getElementById('next-btn').classList.remove('hidden');
+            } else {
+                document.getElementById('finish-btn').classList.remove('hidden');
+                document.getElementById('progress-bar').style.width = `100%`;
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < currentQuestions.length - 1) {
+                currentQuestionIndex++;
+                renderCurrentQuestion();
+            }
+        }
+
+        function finishTopic() {
+            if (confirm("Bạn đã hoàn thành chủ đề này! Bạn có muốn chuyển sang chủ đề tiếp theo không?")) {
+                changeTopic(1);
+            }
+        }
+    </script>
 </body>
 </html>
